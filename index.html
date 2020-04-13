@@ -1,21 +1,124 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script src="./jquery-3.4.1.slim.min.js"></script>
-		<script type="text/javascript" src="./app.js"></script>
-	</head>
+<head>
+    <script src="./jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+    <meta charset="utf-8">
+    <title>Itai and Alisa</title>
+    <meta name="author" content="Alisa Faingold and Itai Dagan"/>
+    <!-- Icon-->
 
-	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
+    <!-- Font Awesome icons-->
+    <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- CSS File -->
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+
+
+</head>
+
+<body>
+<header id="header" class="fixed-top">
+    <div class="container d-flex">
+        <div class="logo mr-auto">
+            <!-- image logo -->
+            <a href="index.html"><img src="" alt="" class="img-fluid"></a>
+        </div>
+    </div>
+    <menu id="menu">
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top">
+        </nav>
+    </menu>
+</header>
+
+<div id="Content">
+    <div id="welcome" style="display: none">
+        <div class="row">
+            <div class="text-center mt-4">
+                <a class="btn btn-xl btn-outline-light">Login</a>
+            </div>
+            <div class="text-center mt-4">
+                <a class="btn btn-xl btn-outline-light">Sing Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="signIn">
+	<H4>Lets Sign You In!</H4>
+	<form class="needs-validation" id="signInForm">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="userNameInput">User Name</label>
+                <input type="text" class="form-control" id="userNameInput" name="username" placeholder="User Name" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password"
+					   pattern="(?=.*\d)(?=.*[a-zA-z]).{6,}" title="Please Enter At Least 6 Letters Including Numbers" required >
+				<div class="invalid-feedback">Please Enter At Least 6 Letters Including Numbers</div>
+			</div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="firstNameInput">First Name</label>
+                <input type="text" class="form-control" id="firstNameInput" name="firstname" placeholder="First Name"
+					   pattern="[A-Za-z]" title="Please Enter Only Letters" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="lastNameInput">Last Name</label>
+                <input type="text" class="form-control" id="lastNameInput" name="lastname" placeholder="Last Name"
+					   pattern="[A-Za-z]" title="Please Enter Only Letters" required>
+			</div>
+        </div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="emailInput">Email</label>
+				<input type="email" class="form-control" id="emailInput" name="email" placeholder="aa@bb.com" required>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="birthdayInput">Birthday Date</label>
+				<input type="date" class="form-control" id="birthdayInput" name="birthday" placeholder="dd/mm/yyyy" required>
+			</div>
 		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
+        <button type="submit" id="signInButton" class="btn btn-primary">Sign in</button>
+    </form>
+</div>
+<div id="login" style="display: none">
+	<H4>Login To Continue</H4>
+	<form class="needs-validation" id="loginForm" novalidate>
+		<div class="form-group">
+			<input type="text" class="form-control" id="userNameLogin" name="username" placeholder="User Name" required>
 		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
+		<div class="form-group">
+			<input type="password" class="form-control" id="passwordLogin" name="password" placeholder="Password" minlength=6 required >
 		</div>
-	</body>
+		<button type="submit" id="loginButton" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+<div id="settings" style="display: none">
+
+</div>
+<div id="about" style="display: none">
+
+</div>
+<div id="ourGame" style="display: none">
+    <div id="score">
+        <label for="lblScore">SCORE:</label>
+        <input id="lblScore" type="text"/>
+    </div>
+    <div id="time">
+        <label for="lblTime">TIME:</label>
+        <input id="lblTime" type="text"/>
+    </div>
+    <div id="game">
+        <canvas id="canvas" height="600" width="600"></canvas>
+    </div>
+</div>
+</div>
+
+</body>
+
+
 </html>
