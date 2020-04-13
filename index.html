@@ -72,7 +72,7 @@
 
 
 <div id="Content" class="container">
-    <div id="welcome" class="d-flex align-items-center flex-column" style="display: block">
+    <div id="welcome" class="align-items-center flex-column" style="display: none">
         <div class="row">
             <img class="masthead-avatar mb-5" src="resources/itai.svg" alt="" />
             <img class="masthead-avatar mb-5" src="resources/alisa.svg" alt="" />
@@ -80,13 +80,11 @@
             <h1>Welcome to Our Pacemen Game!</h1>
         <div class="row">
             <div class="btn-toolbar">
-                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" id="toLogin">Login</button>
+                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="switchDiv('login')">Login</button>
                 <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary">Sign Up</button>
             </div>
-
         </div>
     </div>
-
     <div id="signUp" style="display: none">
         <H4>Lets Sign You In!</H4>
         <form class="needs-validation" id="signUpForm" novalidate>

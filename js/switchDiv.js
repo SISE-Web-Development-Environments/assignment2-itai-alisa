@@ -1,13 +1,3 @@
-window.addEventListener("load",function () {
-    addToAll();
-});
-
-function addToAll() {
-    $('#toLogin').on("click",function () {
-        switchDiv('login');
-    });
-}
-
 function switchDiv(newOne) {
     let divToRemove = current;
     let divToAdd = document.getElementById(newOne);
