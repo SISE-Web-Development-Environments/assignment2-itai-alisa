@@ -2,7 +2,7 @@
 <html>
 <head>
     <script src="./jquery-3.4.1.slim.min.js"></script>
-    <script type="text/javascript" src="./app.js"></script>
+    <script type="text/javascript" src=".idea/js/app.js"></script>
     <meta charset="utf-8">
     <title>Itai and Alisa</title>
     <meta name="author" content="Alisa Faingold and Itai Dagan"/>
@@ -16,26 +16,65 @@
     <!-- CSS File -->
     <link rel="stylesheet" type="text/css" href="style.css"/>
 
+    <script src=".idea/js/formValidtor.js" type="text/javascript"></script>
+    <script src=".idea/js/switchDiv.js" type="text/javascript"></script>
 
+
+    <script type="text/javascript">
+        var map = new Map([["p", "p"]]);
+        localStorage.myMap = JSON.stringify(Array.from(map.entries()));
+
+        function signIn() {
+            var username = document.getElementById("loginUserName").value;
+            var password = document.getElementById("loginPassword").value;
+
+            var myMap = JSON.parse(localStorage.myMap);
+            var found = false;
+
+            for (let i = 0; i < myMap.length; i++) {
+                if (username == myMap[i][0] && password == myMap[i][1]) {
+                    alert("found!!!!");
+                    found = true;
+                } else if (username == myMap[i][0] && password != myMap[i][1]) {
+                    alert("incorrect password");
+                    found = true;
+                }
+            }
+            if (!found) {
+                alert("This username doesn't exist");
+            }
+
+        }
+    </script>
 </head>
 
 <body>
-<header id="header" class="fixed-top">
+
+<header id="header" class="fixed-top" style="display: none">
     <div class="container d-flex">
         <div class="logo mr-auto">
             <!-- image logo -->
             <a href="index.html"><img src="" alt="" class="img-fluid"></a>
         </div>
     </div>
-    <menu id="menu">
+    <menu id="menu2">
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top">
         </nav>
     </menu>
 </header>
 
+<div class="DesignMenu" id="menu">
+    <a href="#"></a>
+    <a href="#" id="aboutButton" class="switch"><span class="fa fa-suitcase mr-3"></span>About</a>
+    <a href="#"><span class="switch fa fa-cogs mr-3"></span>Settings</a>
+    <a href="#"><span class="switch fa fa-home mr-3"></span>Welcome</a>
+</div>
+
+
 <div id="Content">
-    <div id="welcome" style="display: none">
+    <div id="welbbbbbcome" style="display: none">
         <div class="row">
+            <h6>Welccccccccccccccccccc</h6>
             <div class="text-center mt-4">
                 <a class="btn btn-xl btn-outline-light">Login</a>
             </div>
@@ -44,100 +83,129 @@
             </div>
         </div>
     </div>
-</div>
-<div id="signIn">
-	<H4>Lets Sign You In!</H4>
-	<form class="needs-validation" id="signInForm" novalidate>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="userNameInput">User Name</label>
-                <input type="text" class="form-control" id="userNameInput" name="username" placeholder="User Name" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password"
-					   pattern="(?=.*\d)(?=.*[a-zA-z]).{6,}" title="Please Enter At Least 6 Letters Including Numbers" required >
-				<div class="invalid-feedback">Please Enter At Least 6 Letters Including Numbers</div>
-			</div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="firstNameInput">First Name</label>
-                <input type="text" class="form-control" id="firstNameInput" name="firstname" placeholder="First Name"
-					   pattern="[A-Za-z]+" title="Please Enter Only Letters" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="lastNameInput">Last Name</label>
-                <input type="text" class="form-control" id="lastNameInput" name="lastname" placeholder="Last Name"
-					   pattern="[A-Za-z]+" title="Please Enter Only Letters" required>
-			</div>
-        </div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label for="emailInput">Email</label>
-				<input type="email" class="form-control" id="emailInput" name="email" placeholder="aa@bb.com" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="birthdayInput">Birthday Date</label>
-				<input type="date" class="form-control" id="birthdayInput" name="birthday" placeholder="dd/mm/yyyy" required>
-			</div>
-		</div>
-        <button type="button" id="signInButton" class="btn btn-primary">Sign in</button>
-    </form>
-</div>
-<div id="login" style="display: none">
-	<H4>Login To Continue</H4>
-	<form class="needs-validation" id="loginForm" novalidate>
-		<div class="form-group">
-			<input type="text" class="form-control" id="userNameLogin" name="username" placeholder="User Name" required>
-		</div>
-		<div class="form-group">
-			<input type="password" class="form-control" id="passwordLogin" name="password" placeholder="Password" minlength=6 required >
-		</div>
-		<button type="submit" id="loginButton" class="btn btn-primary">Submit</button>
-	</form>
-</div>
-<div id="settings" style="display: none">
 
-</div>
-<div id="about" style="display: none">
+    <div id="signUp" style="display: none">
+        <H4>Lets Sign You In!</H4>
+        <form class="needs-validation" id="signUpForm" novalidate>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="usernameSingUp">User Name</label>
+                    <input type="text" class="form-control" id="usernameSingUp" name="usernameSingUp" placeholder="User Name" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="passwordSignUp">Password</label>
+                    <input type="password" class="form-control" id="passwordSignUp" name="passwordSignUp" placeholder="Password"
+                           pattern="(?=.*\d)(?=.*[a-zA-z]).{6,}" required>
+                    <div class="invalid-feedback">Please Enter At Least 6 Letters Including Numbers</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstNameSignUp">First Name</label>
+                    <input type="text" class="form-control" id="firstNameSignUp" name="firstNameSignUp" placeholder="First Name"
+                           pattern="[A-Za-z]+" required>
+                    <div class="invalid-feedback">Please Enter Only Letters</div>
 
-</div>
-<div id="ourGame" style="display: none">
-    <div id="score">
-        <label for="lblScore">SCORE:</label>
-        <input id="lblScore" type="text"/>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastNameSignUp">Last Name</label>
+                    <input type="text" class="form-control" id="lastNameSignUp" name="lastNameSignUp" placeholder="Last Name"
+                           pattern="[A-Za-z]+" required>
+                    <div class="invalid-feedback">Please Enter Only Letters</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="emailSignUp">Email</label>
+                    <input type="email" class="form-control" id="emailSignUp" name="emailSignUp" placeholder="aa@bb.com" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="birthdaySignUp">Birthday Date</label>
+                    <input type="date" class="form-control" id="birthdaySignUp" name="birthdaySignUp" placeholder="dd/mm/yyyy" required>
+                </div>
+            </div>
+            <button type="button" id="signUpButton" class="btn btn-primary">Sign in</button>
+        </form>
     </div>
-    <div id="time">
-        <label for="lblTime">TIME:</label>
-        <input id="lblTime" type="text"/>
+
+    <div id="login" class="container" style="display: none">
+        <H4 id="loginHeader"><b>Login</b></H4>
+        <form id="loginForm">
+            <label for="loginUserName"><b>Username</b></label>
+            <input type="text" id="loginUserName" placeholder="Enter Username" name="uname" required>
+
+            <label for="loginPassword"><b>Password</b></label>
+            <input type="password" id="loginPassword" placeholder="Enter Password" name="psw" required>
+
+            <button id="loginSubmit" type="submit" onclick="signIn()">Login</button>
+        </form>
     </div>
-    <div id="game">
-        <canvas id="canvas" height="600" width="600"></canvas>
+
+    <div id="settings" style="display: none">
+
     </div>
-</div>
+
+    <div id="about" class="modal" style="display: none">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <br>
+            <p>Our names are: Itai and Alisa!!! welcome to our Pac-Man Game</p>
+            <p>jQuery plugins:</p>
+            <p>Templates:</p>
+            <p>Challenges:</p>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("about");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("aboutButton");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        $(document).keydown(function (e) {
+            var code = e.keyCode || e.which;
+            if (code == 27) modal.style.display = "none";
+        });
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    </script>
+
+    <div id="ourGame" style="display: none">
+        <div id="score">
+            <label for="lblScore">SCORE:</label>
+            <input id="lblScore" type="text"/>
+        </div>
+        <div id="time">
+            <label for="lblTime">TIME:</label>
+            <input id="lblTime" type="text"/>
+        </div>
+        <div id="game">
+            <canvas id="canvas" height="600" width="600"></canvas>
+        </div>
+    </div>
 </div>
 
 </body>
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
+
 
 </html>
