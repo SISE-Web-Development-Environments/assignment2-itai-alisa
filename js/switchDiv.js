@@ -1,9 +1,16 @@
 function switchDiv(newOne) {
-    let divToRemove = current;
-    let divToAdd = document.getElementById(newOne);
-    divToAdd.style.display = "block";
-    divToRemove.style.display = "none";
-    current=divToAdd;
+    var item = localStorage.getItem("current");
+    if (newOne != item) {
+        let divToRemove = document.getElementById(item);
+        let divToAdd = document.getElementById(newOne);
+        if(newOne == "welcome"){
+            divToAdd.style.display = "flex";
+        }else {
+            divToAdd.style.display = "block";
+        }
+        divToRemove.style.display = "none";
+        localStorage.setItem("current", newOne);
+    }
 }
 
-let current =  document.getElementById('welcome');
+localStorage.setItem("current", "welcome");

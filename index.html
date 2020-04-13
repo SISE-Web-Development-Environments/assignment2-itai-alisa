@@ -23,28 +23,6 @@
     <script type="text/javascript">
         var map = new Map([["p", "p"]]);
         localStorage.myMap = JSON.stringify(Array.from(map.entries()));
-
-        function signIn() {
-            var username = document.getElementById("loginUserName").value;
-            var password = document.getElementById("loginPassword").value;
-
-            var myMap = JSON.parse(localStorage.myMap);
-            var found = false;
-
-            for (let i = 0; i < myMap.length; i++) {
-                if (username == myMap[i][0] && password == myMap[i][1]) {
-                    alert("found!!!!");
-                    found = true;
-                } else if (username == myMap[i][0] && password != myMap[i][1]) {
-                    alert("incorrect password");
-                    found = true;
-                }
-            }
-            if (!found) {
-                alert("This username doesn't exist");
-            }
-
-        }
     </script>
 </head>
 
@@ -64,29 +42,31 @@
 </header>
 
 <div class="DesignMenu" id="menu">
-    <a href="#"></a>
+
     <a href="#" id="aboutButton" class="switch"><span class="fa fa-suitcase mr-3"></span>About</a>
-    <a href="#"><span class="switch fa fa-cogs mr-3"></span>Settings</a>
-    <a href="#"><span class="switch fa fa-home mr-3"></span>Welcome</a>
+    <a href="#" onclick="switchDiv('settings')"><span class="switch fa fa-cogs mr-3"></span>Settings</a>
+    <a href="#" onclick="switchDiv('welcome')"><span class="switch fa fa-home mr-3"></span>Welcome</a>
+
+    <a id="logo" href="index.html"><img src="resources/pacman-clipart-pdf-3-transparent.png" style="max-height: 50px; max-width: 50px;
+    padding-bottom: 6px" alt="logo"/></a>
 </div>
 
 
 <div id="Content" class="container">
-    <div id="welcome" class="align-items-center flex-column" style="display: none">
+    <div id="welcome" class="align-items-center flex-column " style="text-align: center; alignment: center">
         <div class="row">
-            <img class="masthead-avatar mb-5" src="resources/itai.svg" alt="" />
-            <img class="masthead-avatar mb-5" src="resources/alisa.svg" alt="" />
+            <img class="masthead-avatar mb-5" src="resources/itai.svg" alt=""/>
+            <img class="masthead-avatar mb-5" src="resources/alisa.svg" alt=""/>
         </div>
-            <h1>Welcome to Our Pacemen Game!</h1>
+        <h1>Welcome to Our Pacemen Game!</h1>
         <div class="row">
             <div class="btn-toolbar">
                 <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="switchDiv('login')">Login</button>
-                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary">Sign Up</button>
+                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="switchDiv('signUp')">Sign Up</button>
             </div>
         </div>
     </div>
     <div id="signUp" style="display: none">
-        <H4>Lets Sign You In!</H4>
         <form class="needs-validation" id="signUpForm" novalidate>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -125,20 +105,27 @@
                     <input type="date" class="form-control" id="birthdaySignUp" name="birthdaySignUp" placeholder="dd/mm/yyyy" required>
                 </div>
             </div>
-            <button type="button" id="signUpButton" class="btn btn-primary">Sign in</button>
+            <button id="signUpButton" class="mx-2 switch btn btn-lg btn-outline-primary">
+                <span>Sign Up</span>
+            </button>
         </form>
     </div>
 
     <div id="login" class="container" style="display: none">
         <H4 id="loginHeader"><b>Login</b></H4>
-        <form id="loginForm">
-            <label for="loginUserName"><b>Username</b></label>
-            <input type="text" id="loginUserName" placeholder="Enter Username" name="uname" required>
+        <form id="loginForm" novalidate>
+            <div class="form-row">
+                <label for="loginUserName"><b>Username</b></label>
+                <input type="text" id="loginUserName" placeholder="Enter Username" name="uname" class="form-control" required>
+            </div>
+            <div class="form-row">
+                <label for="loginPassword"><b>Password</b></label>
+                <input type="password" id="loginPassword" placeholder="Enter Password" name="psw" class="form-control" required>
+            </div>
+            <button id="loginSubmit" class="mx-2 switch btn btn-lg btn-outline-primary">
+                <span>Login</span>
+            </button>
 
-            <label for="loginPassword"><b>Password</b></label>
-            <input type="password" id="loginPassword" placeholder="Enter Password" name="psw" required>
-
-            <button id="loginSubmit" type="submit" onclick="signIn()">Login</button>
         </form>
     </div>
 
@@ -188,6 +175,7 @@
                 modal.style.display = "none";
             }
         }
+
 
     </script>
 
