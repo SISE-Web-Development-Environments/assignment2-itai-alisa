@@ -3,13 +3,9 @@ window.addEventListener("load",function () {
 });
 
 function addToAll() {
-    let buttons = document.getElementsByClassName("switch");
-    for(i=o; i<buttons.length; i++){
-        buttons[i].addEventListener("click",function () {
-            switchDiv(buttons[i].id);
-
-        });
-    }
+    $('#toLogin').on("click",function () {
+        switchDiv('login');
+    });
 }
 
 function switchDiv(newOne) {
@@ -17,7 +13,7 @@ function switchDiv(newOne) {
     let divToAdd = document.getElementById(newOne);
     divToAdd.style.display = "block";
     divToRemove.style.display = "none";
-    current=newOne;
+    current=divToAdd;
 }
 
-let current = 'welcome';
+let current =  document.getElementById('welcome');
