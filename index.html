@@ -132,37 +132,37 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         <form class="needs-validation" id="settingForm">
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="leftA">Left Arrow</label>
-                    <input type="text" class="form-control" id="leftA" name="leftA">
+                    <label for="leftArrowForm">Left Arrow</label>
+                    <input type="text" class="form-control" id="leftArrowForm" name="leftArrowForm">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="rightA">Right Arrow</label>
-                    <input type="text" class="form-control" id="rightA" name="rightA" va>
+                    <label for="rightArrowForm">Right Arrow</label>
+                    <input type="text" class="form-control" id="rightArrowForm" name="rightArrowForm">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="downA">Down Arrow</label>
-                    <input type="text" class="form-control" id="downA" name="downA">
+                    <label for="downArrowForm">Down Arrow</label>
+                    <input type="text" class="form-control" id="downArrowForm" name="downArrowForm">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="upA">Up Arrow</label>
-                    <input type="text" class="form-control" id="upA" name="upA">
+                    <label for="upArrowForm">Up Arrow</label>
+                    <input type="text" class="form-control" id="upArrowForm" name="upArrowForm">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="ballNumber">Number of Balls</label>
-                    <input type="number" class="form-control" id="ballNumber" name="ballNumber"
+                    <label for="ballNumberForm">Number of Balls</label>
+                    <input type="number" class="form-control" id="ballNumberForm" name="ballNumberForm"
                            onchange="validateNumBalls(this);"
                            value="50">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="gameTime">Game Time (seconded)</label>
-                    <input type="number" class="form-control" id="gameTime" name="gameTime" value="60"
+                    <label for="gameTimeForm">Game Time (seconded)</label>
+                    <input type="number" class="form-control" id="gameTimeForm" name="gameTimeForm" value="60"
                            onchange="validateGameTime(this);">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="monsters">Number of Monsters</label>
-                    <select id="monsters" class="form-control" name="monsters" required>
+                    <label for="monstersForm">Number of Monsters</label>
+                    <select id="monstersForm" class="form-control" name="monstersForm" required>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -170,24 +170,24 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
                     </select>
                 </div>
                 <div class="form-group col-md-1">
-                    <label for="fiveColor">5 Points</label>
-                    <input type="color" class="form-control" id="fiveColor" name="fiveColor" value="#eff542">
+                    <label for="fiveColorForm">5 Points</label>
+                    <input type="color" class="form-control" id="fiveColorForm" name="fiveColorForm" value="#eff542">
                 </div>
                 <div class="form-group col-md-1">
-                    <label for="tenColor">10 Points</label>
-                    <input type="color" class="form-control" id="tenColor" name="tenColor" value="#42a4f5">
+                    <label for="tenColorForm">10 Points</label>
+                    <input type="color" class="form-control" id="tenColorForm" name="tenColorForm" value="#42a4f5">
 
                 </div>
                 <div class="form-group col-md-1">
-                    <label for="fifteenColor">15 Points</label>
-                    <input type="color" class="form-control" id="fifteenColor" name="fifteenColor" value="#f542cb">
+                    <label for="fifteenColorForm">15 Points</label>
+                    <input type="color" class="form-control" id="fifteenColorForm" name="fifteenColorForm" value="#f542cb">
                 </div>
             </div>
             <div class="form-row justify-content-center mt-4">
                 <button type="button" id="generate" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="randomSettings()">
                     <span>Random</span>
                 </button>
-                <button type="button" id="startGame" class="mx-2 switch btn btn-lg btn-outline-primary">
+                <button type="button" id="startGame" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="goToGame()">
                     <span>Let's Start!</span>
                 </button>
             </div>

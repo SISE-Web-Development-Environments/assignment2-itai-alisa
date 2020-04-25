@@ -24,10 +24,12 @@ let game_time=60;
 let min_time=60;
 let max_time=300;
 
+let fiveColor="#eff542";
+let tenColor="#42a4f5";
+let fifteenColor="#f542cb";
+
 let KeyboardHelper = { left: 37, up: 38, right: 39, down: 40 };
 let KeyBoardValues = { left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown' };
-
-
 
 function randomSettings(){
 	// ==== Keyboard Default
@@ -41,20 +43,20 @@ function randomSettings(){
 	KeyBoardValues.up='ArrowUp';
 	KeyBoardValues.lect='ArrowLeft';
 
-	document.getElementById("leftA").value= KeyBoardValues.left;
-	document.getElementById("downA").value=KeyBoardValues.down;
-	document.getElementById("rightA").value=KeyBoardValues.right;
-	document.getElementById("upA").value=KeyBoardValues.up;
+	document.getElementById("leftArrowForm").value= KeyBoardValues.left;
+	document.getElementById("downArrowForm").value=KeyBoardValues.down;
+	document.getElementById("rightArrowForm").value=KeyBoardValues.right;
+	document.getElementById("upArrowForm").value=KeyBoardValues.up;
 
 	// === food_remain
 	food_remain = Math.floor(Math.random() * (max_food - min_food + 1) ) + min_food;
-	document.getElementById('ballNumber').value=food_remain;
+	document.getElementById('ballNumberForm').value=food_remain;
 	// === Monsters
 	monsters_remain= Math.floor(Math.random() * (max_monsters - min_monsters + 1) ) + min_monsters;
-	document.getElementById('monsters').value=monsters_remain;
+	document.getElementById('monstersForm').value=monsters_remain;
 	// === Game Time
 	game_time = Math.floor(Math.random() * (max_time - min_time + 1) ) + min_time;
-	document.getElementById('gameTime').value=game_time;
+	document.getElementById('gameTimeForm').value=game_time;
 
 }
 
@@ -83,7 +85,7 @@ function validateGameTime (element) {
 }
 
 function setKeys(){
-	document.getElementById("leftA").addEventListener( 'keydown', function(event) {
+	document.getElementById("leftArrowForm").addEventListener( 'keydown', function(event) {
 		if (!event.metaKey) {
 			event.preventDefault();
 		}
@@ -92,7 +94,7 @@ function setKeys(){
 		KeyBoardValues.left=event.key;
 	});
 
-	document.getElementById("rightA").addEventListener( 'keydown', function(event) {
+	document.getElementById("rightArrowForm").addEventListener( 'keydown', function(event) {
 		if (!event.metaKey) {
 			event.preventDefault();
 		}
@@ -102,7 +104,7 @@ function setKeys(){
 
 	});
 
-	document.getElementById("downA").addEventListener( 'keydown', function(event) {
+	document.getElementById("downArrowForm").addEventListener( 'keydown', function(event) {
 		if (!event.metaKey) {
 			event.preventDefault();
 		}
@@ -112,7 +114,7 @@ function setKeys(){
 
 	});
 
-	document.getElementById("upA").addEventListener( 'keydown', function(event) {
+	document.getElementById("upArrowForm").addEventListener( 'keydown', function(event) {
 		if (!event.metaKey) {
 			event.preventDefault();
 		}
@@ -121,6 +123,14 @@ function setKeys(){
 		KeyBoardValues.up=event.key;
 
 	});
+}
+
+function goToGame(){
+	monsters_remain = document.getElementById("monstersForm").value;
+	fiveColor = document.getElementById("fiveColorForm").value;
+    tenColor = document.getElementById("tenColorForm").value;
+    fifteenColor = document.getElementById("fifteenColorForm").value;
+    // == TODO GO TO GAME
 }
 
 $(document).ready(function() {
