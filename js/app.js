@@ -11,7 +11,6 @@ var interval;
 var canvas_height = 20;
 var canvas_width = 25;
 var walls_board;
-var food_amount = 50;
 
 let food_remain = 50;
 let max_food=90;
@@ -139,9 +138,9 @@ function Start() {
     pac_color = "yellow";
     initializeWalls();
     var cnt = canvas_width * canvas_height;
-    var food_remain_1 = food_amount*0.6;
-    var food_remain_2 = food_amount*0.3;
-    var food_remain_3 = food_amount*0.1;
+    var food_remain_1 = food_remain*0.6;
+    var food_remain_2 = food_remain*0.3;
+    var food_remain_3 = food_remain*0.1;
     var pacman_remain = 1;
     start_time = new Date();
     for (var i = 0; i < canvas_width; i++) {
