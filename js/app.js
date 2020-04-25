@@ -228,6 +228,8 @@ function Start() {
     score = 0;
     direction = 4;
     pac_color = "yellow";
+    mySound = new sound("resources/original.mp3");
+    mySound.play();
     initializeWalls();
     var cnt = canvas_width * canvas_height;
     var food_remain_1 = food_remain * 0.6;
@@ -529,4 +531,19 @@ function draw_ghost(ctx, center_x, center_y, scale) {
     ctx.strokeStyle = 'black';
     ctx.stroke();
     ctx.fill();
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
 }
