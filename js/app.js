@@ -13,122 +13,214 @@ var canvas_width = 25;
 var walls_board;
 
 let food_remain = 50;
-let max_food=90;
-let min_food=50;
+let max_food = 90;
+let min_food = 50;
 
-let monsters_remain=1;
-let max_monsters=4;
-let min_monsters=1;
+let monsters_remain = 1;
+let max_monsters = 4;
+let min_monsters = 1;
 
-let game_time=60;
-let min_time=60;
-let max_time=300;
+let game_time = 60;
+let min_time = 60;
+let max_time = 300;
 
-let KeyboardHelper = { left: 37, up: 38, right: 39, down: 40 };
-let KeyBoardValues = { left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown' };
+let fiveColor = "#eff542";
+let tenColor = "#42a4f5";
+let fifteenColor = "#f542cb";
+
+let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
+let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
+
+const UP_DIRECTION = 1;
+const DOWN_DIRECTION = 2;
+const LEFT_DIRECTION = 3;
+const RIGHT_DIRECTION = 4;
 
 
+function randomSettings() {
+    // ==== Keyboard Default
+    KeyboardHelper.down = 40;
+    KeyboardHelper.right = 39;
+    KeyboardHelper.up = 38;
+    KeyboardHelper.left = 37;
 
-function randomSettings(){
-	// ==== Keyboard Default
-	KeyboardHelper.down=40;
-	KeyboardHelper.right=39;
-	KeyboardHelper.up=38;
-	KeyboardHelper.left=37;
+    KeyBoardValues.down = 'ArrowDown';
+    KeyBoardValues.right = 'ArrowRight';
+    KeyBoardValues.up = 'ArrowUp';
+    KeyBoardValues.lect = 'ArrowLeft';
 
-	KeyBoardValues.down='ArrowDown';
-	KeyBoardValues.right='ArrowRight';
-	KeyBoardValues.up='ArrowUp';
-	KeyBoardValues.lect='ArrowLeft';
+    document.getElementById("leftArrowForm").value = KeyBoardValues.left;
+    document.getElementById("downArrowForm").value = KeyBoardValues.down;
+    document.getElementById("rightArrowForm").value = KeyBoardValues.right;
+    document.getElementById("upArrowForm").value = KeyBoardValues.up;
 
-	document.getElementById("leftA").value= KeyBoardValues.left;
-	document.getElementById("downA").value=KeyBoardValues.down;
-	document.getElementById("rightA").value=KeyBoardValues.right;
-	document.getElementById("upA").value=KeyBoardValues.up;
-
-	// === food_remain
-	food_remain = Math.floor(Math.random() * (max_food - min_food + 1) ) + min_food;
-	document.getElementById('ballNumber').value=food_remain;
-	// === Monsters
-	monsters_remain= Math.floor(Math.random() * (max_monsters - min_monsters + 1) ) + min_monsters;
-	document.getElementById('monsters').value=monsters_remain;
-	// === Game Time
-	game_time = Math.floor(Math.random() * (max_time - min_time + 1) ) + min_time;
-	document.getElementById('gameTime').value=game_time;
-
-}
-
-function validateNumBalls (element) {
-	if(element.value<min_food){
-		element.value=min_food;
-		food_remain=min_food;
-
-	}
-	else if(element.value>max_food){
-		element.value=max_food;
-		food_remain=max_food;
-	}
-	else{
-		food_remain=element.value;
-	}
-}
-function validateGameTime (element) {
-	if(element.value<min_time){
-		element.value=min_time;
-	}
-	else{
-		game_time=element.value;
-	}
+    // === food_remain
+    food_remain = Math.floor(Math.random() * (max_food - min_food + 1)) + min_food;
+    document.getElementById('ballNumberForm').value = food_remain;
+    // === Monsters
+    monsters_remain = Math.floor(Math.random() * (max_monsters - min_monsters + 1)) + min_monsters;
+    document.getElementById('monstersForm').value = monsters_remain;
+    // === Game Time
+    game_time = Math.floor(Math.random() * (max_time - min_time + 1)) + min_time;
+    document.getElementById('gameTimeForm').value = game_time;
 
 }
 
-function setKeys(){
-	document.getElementById("leftA").addEventListener( 'keydown', function(event) {
-		if (!event.metaKey) {
-			event.preventDefault();
-		}
-		KeyboardHelper.left = event.which;
-		this.value=event.key;
-		KeyBoardValues.left=event.key;
-	});
+function validateNumBalls(element) {
+    if (element.value < min_food) {
+        element.value = min_food;
+        food_remain = min_food;
 
-	document.getElementById("rightA").addEventListener( 'keydown', function(event) {
-		if (!event.metaKey) {
-			event.preventDefault();
-		}
-		KeyboardHelper.rigth=event.which;
-		this.value=event.key;
-		KeyBoardValues.right=event.key;
-
-	});
-
-	document.getElementById("downA").addEventListener( 'keydown', function(event) {
-		if (!event.metaKey) {
-			event.preventDefault();
-		}
-		KeyboardHelper.down=event.which;
-		this.value=event.key;
-		KeyBoardValues.down=event.key;
-
-	});
-
-	document.getElementById("upA").addEventListener( 'keydown', function(event) {
-		if (!event.metaKey) {
-			event.preventDefault();
-		}
-		KeyboardHelper.up=event.which;
-		this.value=event.key;
-		KeyBoardValues.up=event.key;
-
-	});
+    } else if (element.value > max_food) {
+        element.value = max_food;
+        food_remain = max_food;
+    } else {
+        food_remain = element.value;
+    }
 }
 
-$(document).ready(function() {
-	context = canvas.getContext("2d");
-	setKeys();
-	Start();
+function validateGameTime(element) {
+    if (element.value < min_time) {
+        element.value = min_time;
+    } else {
+        game_time = element.value;
+    }
+
+}
+
+function setKeys() {
+    document.getElementById("leftArrowForm").addEventListener('keydown', function (event) {
+        if (!event.metaKey) {
+            event.preventDefault();
+        }
+        KeyboardHelper.left = event.which;
+        this.value = event.key;
+        KeyBoardValues.left = event.key;
+    });
+
+    document.getElementById("rightArrowForm").addEventListener('keydown', function (event) {
+        if (!event.metaKey) {
+            event.preventDefault();
+        }
+        KeyboardHelper.rigth = event.which;
+        this.value = event.key;
+        KeyBoardValues.right = event.key;
+
+    });
+
+    document.getElementById("downArrowForm").addEventListener('keydown', function (event) {
+        if (!event.metaKey) {
+            event.preventDefault();
+        }
+        KeyboardHelper.down = event.which;
+        this.value = event.key;
+        KeyBoardValues.down = event.key;
+
+    });
+
+    document.getElementById("upArrowForm").addEventListener('keydown', function (event) {
+        if (!event.metaKey) {
+            event.preventDefault();
+        }
+        KeyboardHelper.up = event.which;
+        this.value = event.key;
+        KeyBoardValues.up = event.key;
+
+    });
+}
+
+function goToGame() {
+    monsters_remain = document.getElementById("monstersForm").value;
+    fiveColor = document.getElementById("fiveColorForm").value;
+    tenColor = document.getElementById("tenColorForm").value;
+    fifteenColor = document.getElementById("fifteenColorForm").value;
+    // == TODO GO TO GAME
+}
+
+$(document).ready(function () {
+    context = canvas.getContext("2d");
+    setKeys();
+    Start();
 });
 
+
+// =============== Monsters =================
+//TODO call to this function in start
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+
+Monster = function (board) {
+    let x = null,
+        y = null,
+        food = null;
+
+    function moveMonster() {
+        let verticalPosition = (x- shape.i)>0;
+        let horizontalPosition = (y-shape.j)>0;
+
+        if(food!==null){
+            board[x][y] = food;
+        }
+
+        if(verticalPosition && board[x-1][y]!=4){
+            x=x-1;
+        }
+        else if(horizontalPosition && board[x][y-1]!=4){
+            y=y-1;
+        }
+        else if(!horizontalPosition && board[x][y+1]!=4){
+            y=y+1;
+        }
+        else if (!verticalPosition && board[x+1][y]!=4){
+            x=x+1;
+        }
+
+        if(board[x][y] >= 11 && board[x][y] <= 13){
+            food = board[x][y];
+        }
+
+    };
+
+    function setPosition(xP, yP) {
+        x = xP;
+        y = yP
+    };
+};
+
+function setMonsters() {
+    let monsterPlace = [1, 2, 3, 4];
+    let monsterToDraw = monsters_remain;
+    monsterPlace = shuffleArray(monsterPlace);
+    while (monsterToDraw > 0) {
+        let number = monsterPlace.pop();
+        if (number === 1) {
+            board[0][0] = 5;
+            let monster = new Monster(board);
+            monster.setPosition(0, 0);
+        } else if (number === 2) {
+            board[0][24] = 5;
+            let monster = new Monster(board);
+            monster.setPosition(0, 24);
+        } else if (number === 3) {
+            board[24][0] = 5;
+            let monster = new Monster(board);
+            monster.setPosition(24, 0);
+        } else {
+            board[24][24] = 5;
+            let monster = new Monster(board);
+            monster.setPosition(24, 24);
+        }
+        monsterToDraw--;
+        ghosts.push()
+    }
+}
 
 
 function Start() {
@@ -138,9 +230,9 @@ function Start() {
     pac_color = "yellow";
     initializeWalls();
     var cnt = canvas_width * canvas_height;
-    var food_remain_1 = food_remain*0.6;
-    var food_remain_2 = food_remain*0.3;
-    var food_remain_3 = food_remain*0.1;
+    var food_remain_1 = food_remain * 0.6;
+    var food_remain_2 = food_remain * 0.3;
+    var food_remain_3 = food_remain * 0.1;
     var pacman_remain = 1;
     start_time = new Date();
     for (var i = 0; i < canvas_width; i++) {
@@ -148,7 +240,7 @@ function Start() {
         for (var j = 0; j < canvas_height; j++) {
             if (walls_board[i][j] == 4) {
                 board[i][j] = 4;
-            }  else {
+            } else {
                 var randomNum = Math.random();
                 if (randomNum <= (1.0 * food_remain_1) / cnt) {
                     food_remain_1--;
@@ -159,8 +251,7 @@ function Start() {
                 } else if (randomNum <= (1.0 * food_remain_3) / cnt) {
                     food_remain_3--;
                     board[i][j] = 13;
-                }
-                else if (randomNum < (1.0 * (pacman_remain + food_remain_1 + food_remain_2 + food_remain_3)) / cnt) {
+                } else if (randomNum < (1.0 * (pacman_remain + food_remain_1 + food_remain_2 + food_remain_3)) / cnt) {
                     shape.i = i;
                     shape.j = j;
                     pacman_remain--;
@@ -206,7 +297,7 @@ function Start() {
 }
 
 
-function initializeWalls(){
+function initializeWalls() {
     walls_board = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -247,18 +338,18 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-	if (keysDown[KeyboardHelper.up]) {
-		return 1;
-	}
-	if (keysDown[KeyboardHelper.down]) {
-		return 2;
-	}
-	if (keysDown[KeyboardHelper.left]) {
-		return 3;
-	}
-	if (keysDown[KeyboardHelper.right]) {
-		return 4;
-	}
+    if (keysDown[KeyboardHelper.up]) {
+        return 1;
+    }
+    if (keysDown[KeyboardHelper.down]) {
+        return 2;
+    }
+    if (keysDown[KeyboardHelper.left]) {
+        return 3;
+    }
+    if (keysDown[KeyboardHelper.right]) {
+        return 4;
+    }
 }
 
 function Draw() {
@@ -316,22 +407,19 @@ function Draw() {
                     context.fillStyle = "black"; //color
                     context.fill();
                 }
-            }
-            else if (board[i][j] >= 11 && board[i][j] <= 13) {
+            } else if (board[i][j] >= 11 && board[i][j] <= 13) {
                 context.beginPath();
                 context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
                 var randomNum = Math.random();
                 context.fillStyle = "black"; //color
                 context.fill();
-            }
-            else if (board[i][j] == 4) {
+            } else if (board[i][j] == 4) {
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
                 context.fillStyle = "grey"; //color
                 context.fill();
-            }
-            else if (board[i][j] == 5) {
-                draw_ghost(context,center.x+10,center.y-10,1);
+            } else if (board[i][j] == 5) {
+                draw_ghost(context, center.x + 10, center.y - 10, 1);
             }
         }
     }
@@ -346,7 +434,7 @@ function UpdatePosition() {
         }
     }
     if (x == 2) {
-        if (shape.j < canvas_height-1 && board[shape.i][shape.j + 1] != 4) {
+        if (shape.j < canvas_height - 1 && board[shape.i][shape.j + 1] != 4) {
             shape.j++;
         }
     }
@@ -356,7 +444,7 @@ function UpdatePosition() {
         }
     }
     if (x == 4) {
-        if (shape.i < canvas_width-1 && board[shape.i + 1][shape.j] != 4) {
+        if (shape.i < canvas_width - 1 && board[shape.i + 1][shape.j] != 4) {
             shape.i++;
         }
     }
@@ -391,9 +479,9 @@ function draw_ghost(ctx, center_x, center_y, scale) {
     this.y = center_y + 30;
 
     ctx.beginPath();
-    ctx.strokeStyle="black";
-    ctx.lineWidth="1";
-    ctx.fillStyle="rgba(89,180,79,0.96)";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = "1";
+    ctx.fillStyle = "rgba(89,180,79,0.96)";
     ctx.beginPath(); //upper part
     ctx.moveTo(this.x, this.y);
     ctx.quadraticCurveTo(this.x + 19, this.y - 90, this.x + 40, this.y);
