@@ -12,7 +12,7 @@ var canvas_height = 20;
 var canvas_width = 25;
 var walls_board;
 
-let food_remain = 50;
+let food_remain = 90;
 let max_food = 90;
 let min_food = 50;
 
@@ -251,7 +251,7 @@ function Start() {
                 } else if (randomNum <= (1.0 * food_remain_3) / cnt) {
                     food_remain_3--;
                     board[i][j] = 13;
-                } else if (randomNum < (1.0 * (pacman_remain + food_remain_1 + food_remain_2 + food_remain_3)) / cnt) {
+                } else if (pacman_remain>0 && randomNum < (1.0 * (pacman_remain + food_remain_1 + food_remain_2 + food_remain_3)) / cnt) {
                     shape.i = i;
                     shape.j = j;
                     pacman_remain--;
@@ -328,11 +328,11 @@ function initializeWalls() {
 }
 
 function findRandomEmptyCell(board) {
-    var i = Math.floor(Math.random() * canvas_width + 1);
-    var j = Math.floor(Math.random() * canvas_height + 1);
+    var i = Math.floor(Math.random() * (canvas_width-1) + 1);
+    var j = Math.floor(Math.random() * (canvas_height-1) + 1);
     while (board[i][j] != 0) {
-        i = Math.floor(Math.random() * canvas_width + 1);
-        j = Math.floor(Math.random() * canvas_height + 1);
+        i = Math.floor(Math.random() * (canvas_width-1) + 1);
+        j = Math.floor(Math.random() * (canvas_height-1) + 1);
     }
     return [i, j];
 }
@@ -349,6 +349,31 @@ function GetKeyPressed() {
     }
     if (keysDown[KeyboardHelper.right]) {
         return 4;
+    }
+}
+
+function drawFood(center,i,j) {
+    var foodType = board[i][j];
+    if(foodType == 11) {
+        context.beginPath();
+        context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+        var randomNum = Math.random();
+        context.fillStyle = fiveColor; //color
+        context.fill();
+    }
+    else if(foodType == 12) {
+        context.beginPath();
+        context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+        var randomNum = Math.random();
+        context.fillStyle = tenColor; //color
+        context.fill();
+    }
+    else if(foodType == 13) {
+        context.beginPath();
+        context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+        var randomNum = Math.random();
+        context.fillStyle = fifteenColor; //color
+        context.fill();
     }
 }
 
@@ -408,11 +433,7 @@ function Draw() {
                     context.fill();
                 }
             } else if (board[i][j] >= 11 && board[i][j] <= 13) {
-                context.beginPath();
-                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                var randomNum = Math.random();
-                context.fillStyle = "black"; //color
-                context.fill();
+                drawFood(center,i,j);
             } else if (board[i][j] == 4) {
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
