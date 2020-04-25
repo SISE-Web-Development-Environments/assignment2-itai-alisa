@@ -48,7 +48,8 @@
     <a href="#" onclick="switchDiv('welcome')"><span class="switch fa fa-home mr-3"></span>Welcome</a>
 
     <a id="logo" href="index.html" style="    display: flex;
-max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" style="max-height: 50px; max-width: 50px;" alt="logo"/></a>
+max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" style="max-height: 50px; max-width: 50px;"
+                        alt="logo"/></a>
 </div>
 
 
@@ -62,8 +63,12 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         <br>
         <div class="row">
             <div class="btn-toolbar">
-                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="switchDiv('login')">Login</button>
-                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="switchDiv('signUp')">Sign Up</button>
+                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="switchDiv('login')">
+                    Login
+                </button>
+                <button type="button" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="switchDiv('signUp')">
+                    Sign Up
+                </button>
             </div>
         </div>
     </div>
@@ -72,11 +77,13 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="usernameSingUp">User Name</label>
-                    <input type="text" class="form-control" id="usernameSingUp" name="usernameSingUp" placeholder="User Name" required>
+                    <input type="text" class="form-control" id="usernameSingUp" name="usernameSingUp"
+                           placeholder="User Name" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="passwordSignUp">Password</label>
-                    <input type="password" class="form-control" id="passwordSignUp" name="passwordSignUp" placeholder="Password"
+                    <input type="password" class="form-control" id="passwordSignUp" name="passwordSignUp"
+                           placeholder="Password"
                            pattern="(?=.*\d)(?=.*[a-zA-z]).{6,}" required>
                     <div class="invalid-feedback">Please Enter At Least 6 Letters Including Numbers</div>
                 </div>
@@ -84,31 +91,20 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="firstNameSignUp">First Name</label>
-                    <input type="text" class="form-control" id="firstNameSignUp" name="firstNameSignUp" placeholder="First Name"
+                    <input type="text" class="form-control" id="firstNameSignUp" name="firstNameSignUp"
+                           placeholder="First Name"
                            pattern="[A-Za-z]+" required>
                     <div class="invalid-feedback">Please Enter Only Letters</div>
 
                 </div>
                 <div class="form-group col-md-6">
                     <label for="lastNameSignUp">Last Name</label>
-                    <input type="text" class="form-control" id="lastNameSignUp" name="lastNameSignUp" placeholder="Last Name"
+                    <input type="text" class="form-control" id="lastNameSignUp" name="lastNameSignUp"
+                           placeholder="Last Name"
                            pattern="[A-Za-z]+" required>
                     <div class="invalid-feedback">Please Enter Only Letters</div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="emailSignUp">Email</label>
-                    <input type="email" class="form-control" id="emailSignUp" name="emailSignUp" placeholder="aa@bb.com" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="birthdaySignUp">Birthday Date</label>
-                    <input type="date" class="form-control" id="birthdaySignUp" name="birthdaySignUp" placeholder="dd/mm/yyyy" required>
-                </div>
-            </div>
-            <button id="signUpButton" class="mx-2 switch btn btn-lg btn-outline-primary">
-                <span>Sign Up</span>
-            </button>
         </form>
     </div>
 
@@ -117,11 +113,13 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         <form id="loginForm" novalidate>
             <div class="form-row">
                 <label for="loginUserName"><b>Username</b></label>
-                <input type="text" id="loginUserName" placeholder="Enter Username" name="uname" class="form-control" required>
+                <input type="text" id="loginUserName" placeholder="Enter Username" name="uname" class="form-control"
+                       required>
             </div>
             <div class="form-row">
                 <label for="loginPassword"><b>Password</b></label>
-                <input type="password" id="loginPassword" placeholder="Enter Password" name="psw" class="form-control" required>
+                <input type="password" id="loginPassword" placeholder="Enter Password" name="psw" class="form-control"
+                       required>
             </div>
             <button id="loginSubmit" class="mx-2 switch btn btn-lg btn-outline-primary">
                 <span>Login</span>
@@ -130,8 +128,70 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         </form>
     </div>
 
-    <div id="settings" style="display: none">
+    <div id="settings" style="display: block">
+        <form class="needs-validation" id="settingForm">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="leftA">Left Arrow</label>
+                    <input type="text" class="form-control" id="leftA" name="leftA">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="rightA">Right Arrow</label>
+                    <input type="text" class="form-control" id="rightA" name="rightA" va>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="downA">Down Arrow</label>
+                    <input type="text" class="form-control" id="downA" name="downA">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="upA">Up Arrow</label>
+                    <input type="text" class="form-control" id="upA" name="upA">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="ballNumber">Number of Balls</label>
+                    <input type="number" class="form-control" id="ballNumber" name="ballNumber"
+                           onchange="validateNumBalls(this);"
+                           value="50">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="gameTime">Game Time (seconded)</label>
+                    <input type="number" class="form-control" id="gameTime" name="gameTime" value="60"
+                           onchange="validateGameTime(this);">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="monsters">Number of Monsters</label>
+                    <select id="monsters" class="form-control" name="monsters" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="fiveColor">5 Points</label>
+                    <input type="color" class="form-control" id="fiveColor" name="fiveColor" value="#eff542">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="tenColor">10 Points</label>
+                    <input type="color" class="form-control" id="tenColor" name="tenColor" value="#42a4f5">
 
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="fifteenColor">15 Points</label>
+                    <input type="color" class="form-control" id="fifteenColor" name="fifteenColor" value="#f542cb">
+                </div>
+            </div>
+            <div class="form-row justify-content-center mt-4">
+                <button id="generate" class="mx-2 switch btn btn-lg btn-outline-primary" onclick="randomSettings()">
+                    <span>Random</span>
+                </button>
+                <button id="startGame" class="mx-2 switch btn btn-lg btn-outline-primary">
+                    <span>Let's Start!</span>
+                </button>
+            </div>
+        </form>
     </div>
 
     <div id="about" class="modal" style="display: none">

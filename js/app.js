@@ -7,17 +7,130 @@ var start_time;
 var time_elapsed;
 var interval;
 
+let food_remain = 50;
+let max_food=90;
+let min_food=50;
+
+let monsters_remain=1;
+let max_monsters=4;
+let min_monsters=1;
+
+let game_time=60;
+let min_time=60;
+let max_time=300;
+
+let KeyboardHelper = { left: 37, up: 38, right: 39, down: 40 };
+let KeyBoardValues = { left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown' };
+
+
+
+function randomSettings(){
+	// ==== Keyboard Default
+	KeyboardHelper.down=40;
+	KeyboardHelper.right=39;
+	KeyboardHelper.up=38;
+	KeyboardHelper.left=37;
+
+	KeyBoardValues.down='ArrowDown';
+	KeyBoardValues.right='ArrowRight';
+	KeyBoardValues.up='ArrowUp';
+	KeyBoardValues.lect='ArrowLeft';
+
+	document.getElementById("leftA").value= KeyBoardValues.left;
+	document.getElementById("downA").value=KeyBoardValues.down;
+	document.getElementById("rightA").value=KeyBoardValues.right;
+	document.getElementById("upA").value=KeyBoardValues.up;
+
+	// === food_remain
+	food_remain = Math.floor(Math.random() * (max_food - min_food + 1) ) + min_food;
+	document.getElementById('ballNumber').value=food_remain;
+	// === Monsters
+	monsters_remain= Math.floor(Math.random() * (max_monsters - min_monsters + 1) ) + min_monsters;
+	document.getElementById('monsters').value=monsters_remain;
+	// === Game Time
+	game_time = Math.floor(Math.random() * (max_time - min_time + 1) ) + min_time;
+	document.getElementById('gameTime').value=game_time;
+
+}
+
+function validateNumBalls (element) {
+	if(element.value<min_food){
+		element.value=min_food;
+		food_remain=min_food;
+
+	}
+	else if(element.value>max_food){
+		element.value=max_food;
+		food_remain=max_food;
+	}
+	else{
+		food_remain=element.value;
+	}
+}
+function validateGameTime (element) {
+	if(element.value<min_time){
+		element.value=min_time;
+	}
+	else{
+		game_time=element.value;
+	}
+
+}
+
+function setKeys(){
+	document.getElementById("leftA").addEventListener( 'keydown', function(event) {
+		if (!event.metaKey) {
+			event.preventDefault();
+		}
+		KeyboardHelper.left = event.which;
+		this.value=event.key;
+		KeyBoardValues.left=event.key;
+	});
+
+	document.getElementById("rightA").addEventListener( 'keydown', function(event) {
+		if (!event.metaKey) {
+			event.preventDefault();
+		}
+		KeyboardHelper.rigth=event.which;
+		this.value=event.key;
+		KeyBoardValues.right=event.key;
+
+	});
+
+	document.getElementById("downA").addEventListener( 'keydown', function(event) {
+		if (!event.metaKey) {
+			event.preventDefault();
+		}
+		KeyboardHelper.down=event.which;
+		this.value=event.key;
+		KeyBoardValues.down=event.key;
+
+	});
+
+	document.getElementById("upA").addEventListener( 'keydown', function(event) {
+		if (!event.metaKey) {
+			event.preventDefault();
+		}
+		KeyboardHelper.up=event.which;
+		this.value=event.key;
+		KeyBoardValues.up=event.key;
+
+	});
+}
+
 $(document).ready(function() {
 	context = canvas.getContext("2d");
+	setKeys();
 	Start();
 });
+
+
 
 function Start() {
 	board = new Array();
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
-	var food_remain = 50;
 	var pacman_remain = 1;
 	start_time = new Date();
 	for (var i = 0; i < 10; i++) {
@@ -83,16 +196,16 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-	if (keysDown[38]) {
+	if (keysDown[KeyboardHelper.up]) {
 		return 1;
 	}
-	if (keysDown[40]) {
+	if (keysDown[KeyboardHelper.down]) {
 		return 2;
 	}
-	if (keysDown[37]) {
+	if (keysDown[KeyboardHelper.left]) {
 		return 3;
 	}
-	if (keysDown[39]) {
+	if (keysDown[KeyboardHelper.right]) {
 		return 4;
 	}
 }
