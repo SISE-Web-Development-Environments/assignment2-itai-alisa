@@ -145,7 +145,6 @@ $(document).ready(function () {
 
 
 // =============== Monsters =================
-//TODO call to this function in start
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -156,42 +155,43 @@ function shuffleArray(array) {
     return array;
 }
 
-Monster = function (board) {
-    let x = null,
-        y = null,
-        food = null;
+function Monster (x,y,food){
+    this.x=x;
+    this.y=y;
+    this.food=food;
+}
 
-    function moveMonster() {
-        let verticalPosition = (x- shape.i)>0;
-        let horizontalPosition = (y-shape.j)>0;
+function moveMonster(monster) {
+    let verticalPosition = (monster.x - shape.i) > 0;
+    let horizontalPosition = (monster.y - shape.j) > 0;
 
-        if(food!==null){
-            board[x][y] = food;
-        }
+    if (monster.food !== null) {
+        board[monster.x][monster.y] = monster.food;
+    }
+    else{
+        board[monster.x][monster.y] =0;
+    }
 
-        if(verticalPosition && board[x-1][y]!=4){
-            x=x-1;
-        }
-        else if(horizontalPosition && board[x][y-1]!=4){
-            y=y-1;
-        }
-        else if(!horizontalPosition && board[x][y+1]!=4){
-            y=y+1;
-        }
-        else if (!verticalPosition && board[x+1][y]!=4){
-            x=x+1;
-        }
+    if (verticalPosition && monster.x>0 && board[monster.x - 1][monster.y] != 4) {
+        monster.x = monster.x - 1;
+    } else if (horizontalPosition && monster.y>0 && board[monster.x][monster.y - 1] != 4) {
+        monster.y =monster.y - 1;
+    } else if (!horizontalPosition && monster.y<canvas_height-1 && board[monster.x][monster.y + 1] != 4) {
+        monster.y = monster.y + 1;
+    } else if (!verticalPosition && monster.x<canvas_width-1 && board[monster.x + 1][monster.y] != 4) {
+        monster.x = monster.x + 1;
+    }
+    if (board[monster.x][monster.y] >= 11 && board[monster.x][monster.y] <= 13) {
+        monster.food = board[monster.x][monster.y];
+    }
+    else{
+        monster.food=null;
+    }
 
-        if(board[x][y] >= 11 && board[x][y] <= 13){
-            food = board[x][y];
-        }
+    board[monster.x][monster.y]=5;
+    Draw();
 
-    };
 
-    function setPosition(xP, yP) {
-        x = xP;
-        y = yP
-    };
 };
 
 function setMonsters() {
@@ -200,25 +200,22 @@ function setMonsters() {
     monsterPlace = shuffleArray(monsterPlace);
     while (monsterToDraw > 0) {
         let number = monsterPlace.pop();
+        let monster;
         if (number === 1) {
             board[0][0] = 5;
-            let monster = new Monster(board);
-            monster.setPosition(0, 0);
+            monster = new Monster(0,0, null);
         } else if (number === 2) {
             board[0][24] = 5;
-            let monster = new Monster(board);
-            monster.setPosition(0, 24);
+            monster = new Monster(0, 24, null);
         } else if (number === 3) {
             board[24][0] = 5;
-            let monster = new Monster(board);
-            monster.setPosition(24, 0);
+            monster = new Monster(24, 0, null);
         } else {
             board[24][24] = 5;
-            let monster = new Monster(board);
-            monster.setPosition(24, 24);
+            monster = new Monster(24, 24, null);
         }
         monsterToDraw--;
-        ghosts.push()
+        ghosts.push(monster)
     }
 }
 
@@ -251,7 +248,7 @@ function Start() {
                 } else if (randomNum <= (1.0 * food_remain_3) / cnt) {
                     food_remain_3--;
                     board[i][j] = 13;
-                } else if (pacman_remain>0 && randomNum < (1.0 * (pacman_remain + food_remain_1 + food_remain_2 + food_remain_3)) / cnt) {
+                } else if (pacman_remain > 0 && randomNum < (1.0 * (pacman_remain + food_remain_1 + food_remain_2 + food_remain_3)) / cnt) {
                     shape.i = i;
                     shape.j = j;
                     pacman_remain--;
@@ -278,6 +275,7 @@ function Start() {
         board[emptyCell[0]][emptyCell[1]] = 13;
         food_remain_3--;
     }
+    setMonsters();
     keysDown = {};
     addEventListener(
         "keydown",
@@ -293,6 +291,7 @@ function Start() {
         },
         false
     );
+    ghosts.forEach(ghost => setInterval(() =>moveMonster(ghost),200));
     interval = setInterval(UpdatePosition, 100);
 }
 
@@ -328,11 +327,11 @@ function initializeWalls() {
 }
 
 function findRandomEmptyCell(board) {
-    var i = Math.floor(Math.random() * (canvas_width-1) + 1);
-    var j = Math.floor(Math.random() * (canvas_height-1) + 1);
+    var i = Math.floor(Math.random() * (canvas_width - 1) + 1);
+    var j = Math.floor(Math.random() * (canvas_height - 1) + 1);
     while (board[i][j] != 0) {
-        i = Math.floor(Math.random() * (canvas_width-1) + 1);
-        j = Math.floor(Math.random() * (canvas_height-1) + 1);
+        i = Math.floor(Math.random() * (canvas_width - 1) + 1);
+        j = Math.floor(Math.random() * (canvas_height - 1) + 1);
     }
     return [i, j];
 }
@@ -352,23 +351,21 @@ function GetKeyPressed() {
     }
 }
 
-function drawFood(center,i,j) {
+function drawFood(center, i, j) {
     var foodType = board[i][j];
-    if(foodType == 11) {
+    if (foodType == 11) {
         context.beginPath();
         context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = fiveColor; //color
         context.fill();
-    }
-    else if(foodType == 12) {
+    } else if (foodType == 12) {
         context.beginPath();
         context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = tenColor; //color
         context.fill();
-    }
-    else if(foodType == 13) {
+    } else if (foodType == 13) {
         context.beginPath();
         context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
@@ -433,7 +430,7 @@ function Draw() {
                     context.fill();
                 }
             } else if (board[i][j] >= 11 && board[i][j] <= 13) {
-                drawFood(center,i,j);
+                drawFood(center, i, j);
             } else if (board[i][j] == 4) {
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
