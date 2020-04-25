@@ -145,7 +145,6 @@ function Start() {
     start_time = new Date();
     for (var i = 0; i < canvas_width; i++) {
         board[i] = new Array();
-        //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
         for (var j = 0; j < canvas_height; j++) {
             if (walls_board[i][j] == 4) {
                 board[i][j] = 4;
