@@ -11,6 +11,7 @@ var interval;
 var canvas_height = 20;
 var canvas_width = 25;
 var walls_board;
+var lives = 5;
 
 let food_remain = 90;
 let max_food = 90;
@@ -21,7 +22,7 @@ let max_monsters = 4;
 let min_monsters = 1;
 
 let game_time = 60;
-let min_time = 60;
+let min_time = 10;
 let max_time = 300;
 
 let fiveColor = "#eff542";
@@ -30,6 +31,9 @@ let fifteenColor = "#f542cb";
 
 let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
 let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
+
+var gameInProgress = false;
+var mySound;
 
 const UP_DIRECTION = 1;
 const DOWN_DIRECTION = 2;
@@ -134,15 +138,17 @@ function goToGame() {
     fiveColor = document.getElementById("fiveColorForm").value;
     tenColor = document.getElementById("tenColorForm").value;
     fifteenColor = document.getElementById("fifteenColorForm").value;
-    // == TODO GO TO GAME
-}
-
-$(document).ready(function () {
     context = canvas.getContext("2d");
     setKeys();
-    Start();
-});
-
+    if(gameInProgress){
+        gameOver();
+        Start();
+    }
+    else{
+        gameInProgress = true;
+        Start();
+    }
+}
 
 // =============== Monsters =================
 function shuffleArray(array) {
@@ -225,6 +231,8 @@ function Start() {
     score = 0;
     direction = 4;
     pac_color = "yellow";
+    mySound = new sound("resources/original.mp3");
+    mySound.play();
     initializeWalls();
     var cnt = canvas_width * canvas_height;
     var food_remain_1 = food_remain * 0.6;
@@ -275,6 +283,8 @@ function Start() {
         board[emptyCell[0]][emptyCell[1]] = 13;
         food_remain_3--;
     }
+    var emptyCell = findRandomEmptyCell(board);
+    board[emptyCell[0]][emptyCell[1]] = 21;
     setMonsters();
     keysDown = {};
     addEventListener(
@@ -378,6 +388,7 @@ function Draw() {
     canvas.width = canvas.width; //clean board
     lblScore.value = score;
     lblTime.value = time_elapsed;
+    lblLives.value = lives;
     for (var i = 0; i < canvas_width; i++) {
         for (var j = 0; j < canvas_height; j++) {
             var center = new Object();
@@ -438,8 +449,49 @@ function Draw() {
                 context.fill();
             } else if (board[i][j] == 5) {
                 draw_ghost(context, center.x + 10, center.y - 10, 1);
+            } else if (board[i][j] == 21){
+                let img = document.getElementById("hourglass");
+                context.drawImage(img, center.x, center.y, 45, 45);
             }
         }
+    }
+}
+
+function foodScoreCalculator(i,j) {
+    var foodType = board[shape.i][shape.j];
+    if (foodType == 11) {
+        score+=5;
+    } else if (foodType == 12) {
+        score+=10;
+    } else if (foodType == 13) {
+        score+=15;
+    }
+}
+
+function ghostEncounter() {
+    if (board[shape.i][shape.j] == 5) {
+        score-=10;
+        lives--;
+        if(lives == 0){
+            window.alert("Loser!");
+            gameOver();
+        }
+        else{
+            var emptyCell = findRandomEmptyCell(board);
+            shape.i = emptyCell[0];
+            shape.j = emptyCell[1];
+        }
+    }
+}
+
+function gameOver(){
+    mySound.stop();
+    window.clearInterval(interval);
+}
+
+function hourGlassEncounter() {
+    if (board[shape.i][shape.j] == 5) {
+        game_time+=10;
     }
 }
 
@@ -466,26 +518,26 @@ function UpdatePosition() {
             shape.i++;
         }
     }
-    if (board[shape.i][shape.j] == 1) {
-        score++;
-    }
+    foodScoreCalculator();
+    ghostEncounter();
+    hourGlassEncounter();
     if (x > 0 && x < 5)
         direction = x;
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
-    if (score >= 10 && time_elapsed >= 10) {
-        window.clearInterval(interval);
+    if (score >= 10 && time_elapsed >= game_time) {
+        gameOver();
         window.alert("Winner!!!");
         pac_color = "green";
     }
-    if (score > 100 && time_elapsed >= 10) {
-        window.clearInterval(interval);
+    if (score > 100 && time_elapsed >= game_time) {
+        gameOver();
         window.alert("Winner!!!");
         pac_color = "green";
     }
     if (score == 50) {
-        window.clearInterval(interval);
+        gameOver();
         window.alert("Game completed");
     } else {
         Draw();
@@ -507,8 +559,8 @@ function draw_ghost(ctx, center_x, center_y, scale) {
     ctx.quadraticCurveTo(this.x + 3, this.y + 4, this.x + 10, this.y);
     ctx.moveTo(this.x + 10, this.y);
     ctx.quadraticCurveTo(this.x + 12, this.y - 2, this.x + 20, this.y);
-    ctx.moveTo(this.x + 20, this.y);
     ctx.quadraticCurveTo(this.x + 22, this.y + 4, this.x + 30, this.y);
+    ctx.moveTo(this.x + 20, this.y);
     ctx.moveTo(this.x + 30, this.y);
     ctx.quadraticCurveTo(this.x + 35, this.y - 2, this.x + 40, this.y);
     ctx.strokeStyle = 'black';
@@ -526,4 +578,19 @@ function draw_ghost(ctx, center_x, center_y, scale) {
     ctx.strokeStyle = 'black';
     ctx.stroke();
     ctx.fill();
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
 }
