@@ -155,7 +155,7 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
                            value="50">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="gameTimeForm">Game Time (seconded)</label>
+                    <label for="gameTimeForm">Game Time (seconds)</label>
                     <input type="number" class="form-control" id="gameTimeForm" name="gameTimeForm" value="60"
                            onchange="validateGameTime(this);">
                 </div>
@@ -256,7 +256,8 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
     <img id="gameOver"
          src="resources/gameOver.webp" alt="The Scream" style="display: none">
 
-    <div id="ourGame" style="display: block">
+
+    <div id="ourGame" style="display: block; text-align: center; align-items: center">
         <div class="form-row">
             <div id="score" class="form-group col-md-4">
                 <label for="lblScore">SCORE:</label>
@@ -271,10 +272,55 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
                 <input id="lblLives" type="text"/>
             </div>
         </div>
-        <div id="game" style="text-align: center">
-            <canvas id="canvas" height="1200" width="1500" style="outline: black 3px solid;"></canvas>
-        </div>
 
+        <div class="container" style="text-align: center">
+            <div class="row">
+                <div class="col-sm-3" style="background-color:antiquewhite;text-align: left; padding-left: 20px">
+                    <br>
+                    <a style="font-size: 24px; text-align: center"><strong>Game Settings</strong></a>
+                    <br>
+                    <br>
+                    <a style="font-size: 16px"><strong>Game Time (seconds): </strong></a>
+                    <div id="game_time_id"></div>
+                    <br>
+                    <a style="font-size: 16px"><strong>Number of Balls: </strong></a>
+                    <div id="balls_number_id"></div>
+                    <br>
+                    <a style="font-size: 16px"><strong>Number of Monsters: </strong></a>
+                    <div id="num_of_monsters_id"></div>
+                    <br>
+                    <a style="font-size: 24px; text-align: center"><strong>Game Arrows</strong></a>
+                    <br>
+                    <br>
+                    <a style="font-size: 16px"><strong>Left Arrow: </strong></a>
+                    <div id="left_arrow_id"></div>
+                    <br>
+                    <a style="font-size: 16px"><strong>Right Arrow: </strong></a>
+                    <div id="right_arrow_id"></div>
+                    <br>
+                    <a style="font-size: 16px"><strong>Down Arrow: </strong></a>
+                    <div id="down_arrow_id"></div>
+                    <br>
+                    <a style="font-size: 16px"><strong>Up Arrow: </strong></a>
+                    <div id="up_arrow_id"></div>
+                    <br>
+                    <a style="font-size: 24px; text-align: center"><strong>Balls Colors</strong></a>
+                    <br>
+                    <br>
+                    <a style="font-size: 16px"><strong>Five points color: </strong></a>
+                    <div id="5_points_id"></div>
+                    <a style="font-size: 16px"><strong>Ten points color: </strong></a>
+                    <div id="10_points_id"></div>
+                    <a style="font-size: 16px"><strong>Fifteen points color: </strong></a>
+                    <div id="15_points_id"></div>
+                </div>
+                <div class="col-sm-1" style="background-color:white;">
+                </div>
+                <div id="game" class="col-sm-4" style="text-align: center">
+                    <canvas id="canvas" height="620" width="770" style="outline: black 3px solid;display: inline;"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
