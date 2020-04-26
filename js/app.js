@@ -216,7 +216,6 @@ function moveMonster(monster) {
     }
 
     board[monster.x][monster.y] = 5;
-    Draw();
 
 
 };
@@ -282,7 +281,6 @@ function generateSpecialPill() {
     sp = new SpecialPill(emptyCell[0], emptyCell[1]);
     board[sp.x][sp.y] = 20;
     SpecialPills.push(sp);
-    draw();
 }
 
 function removeSpecialPill() {
@@ -290,7 +288,6 @@ function removeSpecialPill() {
         let sp = SpecialPill.pop();
         board[sp.x][sp.y] = 0;
     }
-    draw();
 }
 
 function drawSpecialPill(center, i, j) {
