@@ -13,6 +13,7 @@ var canvas_width = 25;
 var walls_board;
 var lives = 5;
 
+// Settings
 let food_remain = 90;
 let max_food = 90;
 let min_food = 50;
@@ -32,7 +33,14 @@ let fifteenColor = "#f542cb";
 let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
 let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
 
-let SpecialPills = new Array();
+// specialFood
+let SpecialFoods = new Array();
+let special_food_interval_start;
+let special_food_interval_end;
+
+//Monsters
+let monsters_interval;
+
 var game_over = false;
 var gameInProgress = false;
 var mySound;
@@ -42,7 +50,7 @@ const DOWN_DIRECTION = 2;
 const LEFT_DIRECTION = 3;
 const RIGHT_DIRECTION = 4;
 
-
+// =============== Settings ===================
 function randomSettings() {
     // ==== Keyboard Default
     KeyboardHelper.down = 40;
@@ -75,21 +83,21 @@ function randomSettings() {
 function validateNumBalls(element) {
     if (element.value < min_food) {
         element.value = min_food;
-        food_remain = min_food;
+        food_remain = parseInt(min_food);
 
     } else if (element.value > max_food) {
         element.value = max_food;
-        food_remain = max_food;
+        food_remain =parseInt(max_food);
     } else {
-        food_remain = element.value;
+        food_remain = parseInt(element.value);
     }
 }
 
 function validateGameTime(element) {
     if (element.value < min_time) {
-        element.value = min_time;
+        element.value = parseInt(min_time);
     } else {
-        game_time = element.value;
+        game_time = parseInt(element.value);
     }
 
 }
@@ -136,17 +144,16 @@ function setKeys() {
 }
 
 function goToGame() {
-    monsters_remain = document.getElementById("monstersForm").value;
+    monsters_remain = parseInt(document.getElementById("monstersForm").value);
     fiveColor = document.getElementById("fiveColorForm").value;
     tenColor = document.getElementById("tenColorForm").value;
     fifteenColor = document.getElementById("fifteenColorForm").value;
     context = canvas.getContext("2d");
     setKeys();
-    if(gameInProgress){
+    if (gameInProgress) {
         gameOver();
         Start();
-    }
-    else{
+    } else {
         gameInProgress = true;
         Start();
     }
@@ -169,10 +176,9 @@ function Monster(x, y, food) {
     this.food = food;
 }
 
-function moveMonster(monster) {
+function moveMonsters(monster) {
     let mUpP = (monster.x - shape.i) < 0;
     let mLeftP = (monster.y - shape.j) < 0;
-
     if (monster.food !== null) {
         board[monster.x][monster.y] = monster.food;
     } else {
@@ -216,14 +222,13 @@ function moveMonster(monster) {
     }
 
     board[monster.x][monster.y] = 5;
-
-
 };
 
 function restartMonster() {
     let monsterPlace = [1, 2, 3, 4];
     monsterPlace = shuffleArray(monsterPlace);
-    ghosts.forEach(ghosts => function () {
+    ghosts.forEach(function(ghosts) {
+        board[ghosts.x][ghosts.y] = 0;
         let number = monsterPlace.pop();
         if (number === 1) {
             board[0][0] = 5;
@@ -270,35 +275,38 @@ function setMonsters() {
     }
 }
 
-// ============== specialPill ====================
-function SpecialPill(x, y) {
+// ============== specialFood ====================
+function SpecialFood(x, y) {
     this.x = x;
     this.y = y;
 }
 
 function generateSpecialPill() {
     let emptyCell = findRandomEmptyCell(board);
-    sp = new SpecialPill(emptyCell[0], emptyCell[1]);
+    sp = new SpecialFood(emptyCell[0], emptyCell[1]);
     board[sp.x][sp.y] = 20;
-    SpecialPills.push(sp);
+    SpecialFoods.push(sp);
 }
 
-function removeSpecialPill() {
-    while (SpecialPill.length > 0) {
-        let sp = SpecialPill.pop();
-        board[sp.x][sp.y] = 0;
-    }
+function removeSpecialFood() {
+    let sp = SpecialFoods[0];
+    board[sp.x][sp.y] = 0;
+    SpecialFood.length = 0;
+
 }
 
-function drawSpecialPill(center, i, j) {
+function drawSpecialFood(center) {
     context.beginPath();
-    context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
-    context.fillStyle = fiveColor; //color
-    context.shadowBlur = 20;
-    context.shadowColor=fiveColor;
+    context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+    context.fillStyle = "#24fc03"; //color
     context.fill();
+    context.lineWidth = 5;
+    context.strokeStyle = '#f4ff19';
+    context.stroke();
 }
 
+
+/// ============== Game =======================
 function Start() {
     board = new Array();
     score = 0;
@@ -357,9 +365,9 @@ function Start() {
         board[emptyCell[0]][emptyCell[1]] = 13;
         food_remain_3--;
     }
+    setMonsters();
     var emptyCell = findRandomEmptyCell(board);
     board[emptyCell[0]][emptyCell[1]] = 21;
-    setMonsters();
     keysDown = {};
     addEventListener(
         "keydown",
@@ -375,11 +383,13 @@ function Start() {
         },
         false
     );
-    ghosts.forEach(ghost => setInterval(() => moveMonster(ghost), 200));
     interval = setInterval(UpdatePosition, 100);
+    ghosts.forEach(monster => setInterval(() => moveMonsters(monster), 200));
+    // monsters_interval = setInterval(()=> moveMonsters(), 200);
+    special_food_interval_start = setInterval(() => generateSpecialPill(), 10000);
+    special_food_interval_end = setInterval(() => removeSpecialFood(), 15000);
 
 }
-
 
 function initializeWalls() {
     walls_board = [
@@ -536,55 +546,61 @@ function Draw() {
                 context.fill();
             } else if (board[i][j] == 5) {
                 draw_ghost(context, center.x + 10, center.y - 10, 1);
-            } else if (board[i][j] == 21){
+            } else if (board[i][j] == 21) {
                 let img = document.getElementById("hourglass");
-                context.drawImage(img, center.x-25, center.y-25, 45, 45);
+                context.drawImage(img, center.x - 25, center.y - 25, 45, 45);
+            } else if (board[i][j] == 20) {
+                drawSpecialFood(center);
             }
         }
     }
-    if(game_over){
+    if (game_over) {
         let img = document.getElementById("gameOver");
         context.drawImage(img, 100, 100, 1400, 1000);
     }
 }
 
-function foodScoreCalculator(i,j) {
+function foodScoreCalculator(i, j) {
     var foodType = board[shape.i][shape.j];
     if (foodType == 11) {
-        score+=5;
+        score += 5;
     } else if (foodType == 12) {
-        score+=10;
+        score += 10;
     } else if (foodType == 13) {
-        score+=15;
+        score += 15;
     }
 }
 
 function ghostEncounter() {
     if (board[shape.i][shape.j] == 5) {
-        score-=10;
+        score -= 10;
         lives--;
-        if(lives == 0){
+        if (lives == 0) {
             window.alert("Loser!");
             pac_color = "red";
             gameOver();
-        }
-        else{
+        } else {
+            restartMonster();
             var emptyCell = findRandomEmptyCell(board);
             shape.i = emptyCell[0];
             shape.j = emptyCell[1];
+
         }
     }
 }
 
-function gameOver(){
+function gameOver() {
     game_over = true;
     mySound.stop();
-    window.clearInterval(interval);
+    let interval_id = window.interval;
+    for (let i = 1; i < interval_id; i++)
+        window.clearInterval(i);
+    ghosts.length = 0
 }
 
 function hourGlassEncounter() {
     if (board[shape.i][shape.j] == 21) {
-        game_time=game_time+10;
+        game_time = game_time + 10;
     }
 }
 
@@ -619,8 +635,8 @@ function UpdatePosition() {
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
-    if(time_elapsed >= game_time){
-        if(score >= 100){
+    if (time_elapsed >= game_time) {
+        if (score >= 100) {
             window.alert("Winner!!!");
             pac_color = "green";
         } else {
@@ -682,10 +698,10 @@ function sound(src) {
     this.sound.setAttribute("controls", "none");
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
-    this.play = function(){
+    this.play = function () {
         this.sound.play();
     }
-    this.stop = function(){
+    this.stop = function () {
         this.sound.pause();
     }
 }
