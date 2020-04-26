@@ -41,6 +41,10 @@ let special_food_interval_end;
 //Monsters
 let monsters_interval;
 
+//
+let moving_score;
+let moving_score_interval;
+
 var game_over = false;
 var gameInProgress = false;
 var mySound;
@@ -87,7 +91,7 @@ function validateNumBalls(element) {
 
     } else if (element.value > max_food) {
         element.value = max_food;
-        food_remain =parseInt(max_food);
+        food_remain = parseInt(max_food);
     } else {
         food_remain = parseInt(element.value);
     }
@@ -159,6 +163,53 @@ function goToGame() {
     }
 }
 
+// =========== Moving Score ========
+
+function MovingScore(x, y, food) {
+    this.x = x;
+    this.y = y;
+    this.food = food;
+}
+
+function moveMovingScore() {
+    if (moving_score.food !== null) {
+        board[moving_score.x][moving_score.y] = moving_score.food;
+    } else {
+        board[moving_score.x][moving_score.y] = 0;
+    }
+
+    let dir = Math.floor(Math.random() * (400 - 0 + 1)) + 0;
+    if (dir < 100 && moving_score.y < canvas_height - 1 && board[moving_score.x][moving_score.y + 1]!==4) {
+        moving_score.y +=1;
+    } else if (dir < 200 && moving_score.y > 0 && board[moving_score.x][moving_score.y - 1]!==4) {
+        moving_score.y -=1;
+    } else if (dir < 300 && moving_score.x > 0 && board[moving_score.x - 1][moving_score.y]!==4) {
+        moving_score.x -=1;
+    } else if (dir <= 400 && moving_score.x < canvas_width - 1 && board[moving_score.x + 1][moving_score.y]!==4) {
+        moving_score.x +=1;
+    }
+
+    if ((board[moving_score.x][moving_score.y] >= 11 && board[moving_score.x][moving_score.y] <= 13) || board[moving_score.x][moving_score.y]===21 || board[moving_score.x][moving_score.y]===20 || board[moving_score.x][moving_score.y]===5) {
+        moving_score.food = board[moving_score.x][moving_score.y];
+    }
+    //     else{   moving_score.food = board[moving_score.x][moving_score.y];}
+    board[moving_score.x][moving_score.y] = 22;
+
+}
+
+
+function drawMovingScore(center) {
+    context.beginPath();
+    context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
+    var randomNum = Math.random();
+    context.fillStyle = "#6983aa"; //color
+    context.fill();
+    context.lineWidth = 2;
+    context.strokeStyle = '#8566aa';
+    context.stroke();
+}
+
+
 // =============== Monsters =================
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -187,35 +238,35 @@ function moveMonsters(monster) {
 
     if (direction === RIGHT_DIRECTION || direction === LEFT_DIRECTION) {
         // Chase To Right
-        if (mLeftP && monster.x < canvas_width - 1 && board[monster.x + 1][monster.y] != 4) {
+        if (mLeftP && monster.x < canvas_width - 1 && board[monster.x + 1][monster.y] !== 4) {
             monster.x = monster.x + 1;
         }
         //Chase To Left
-        else if (!mLeftP && monster.x > 0 && board[monster.x - 1][monster.y] != 4) {
+        else if (!mLeftP && monster.x > 0 && board[monster.x - 1][monster.y] !== 4) {
             monster.x = monster.x - 1;
         }
         //can't move there
-        else if (mUpP && monster.y > 0 && board[monster.x][monster.y - 1] != 4) {
+        else if (mUpP && monster.y > 0 && board[monster.x][monster.y - 1] !== 4) {
             monster.y = monster.y - 1;
-        } else if (monster.y < canvas_height - 1 && board[monster.x][monster.y + 1] != 4) {
+        } else if (monster.y < canvas_height - 1 && board[monster.x][monster.y + 1] !== 4) {
             monster.y = monster.y + 1;
         }
     } else {
         //Chase Down
-        if (!mUpP && monster.x < canvas_width - 1 && board[monster.x][monster.y + 1] != 4) {
+        if (!mUpP && monster.x < canvas_width - 1 && board[monster.x][monster.y + 1] !== 4) {
             monster.y = monster.y + 1;
         }
         //Chase Up
-        else if (mUpP && monster.y > 0 && board[monster.x][monster.y - 1] != 4) {
+        else if (mUpP && monster.y > 0 && board[monster.x][monster.y - 1] !== 4) {
             monster.y = monster.y - 1;
-        } else if (mLeftP && monster.x < canvas_width - 1 && board[monster.x + 1][monster.y] != 4) {
+        } else if (mLeftP && monster.x < canvas_width - 1 && board[monster.x + 1][monster.y] !== 4) {
             monster.x = monster.x + 1;
-        } else if (!mLeftP && monster.x > 0 && board[monster.x - 1][monster.y] != 4) {
+        } else if (!mLeftP && monster.x > 0 && board[monster.x - 1][monster.y] !== 4) {
             monster.x = monster.x - 1;
         }
     }
 
-    if (board[monster.x][monster.y] >= 11 && board[monster.x][monster.y] <= 13) {
+    if ((board[monster.x][monster.y] >= 11 && board[monster.x][monster.y] <= 13) || board[monster.x][monster.y]===21 || board[monster.x][monster.y]===20 || board[monster.x][monster.y]===22) {
         monster.food = board[monster.x][monster.y];
     } else {
         monster.food = null;
@@ -227,7 +278,7 @@ function moveMonsters(monster) {
 function restartMonster() {
     let monsterPlace = [1, 2, 3, 4];
     monsterPlace = shuffleArray(monsterPlace);
-    ghosts.forEach(function(ghosts) {
+    ghosts.forEach(function (ghosts) {
         board[ghosts.x][ghosts.y] = 0;
         let number = monsterPlace.pop();
         if (number === 1) {
@@ -366,6 +417,9 @@ function Start() {
         food_remain_3--;
     }
     setMonsters();
+    let cellForMovingScore = findRandomEmptyCell(board);
+    moving_score = new MovingScore(cellForMovingScore[0], cellForMovingScore[1], null);
+    board[cellForMovingScore[0]][cellForMovingScore[1]] = 22;
     var emptyCell = findRandomEmptyCell(board);
     board[emptyCell[0]][emptyCell[1]] = 21;
     keysDown = {};
@@ -386,8 +440,9 @@ function Start() {
     interval = setInterval(UpdatePosition, 100);
     ghosts.forEach(monster => setInterval(() => moveMonsters(monster), 200));
     // monsters_interval = setInterval(()=> moveMonsters(), 200);
-    special_food_interval_start = setInterval(() => generateSpecialPill(), 10000);
-    special_food_interval_end = setInterval(() => removeSpecialFood(), 15000);
+    special_food_interval_start = setInterval(generateSpecialPill, 10000);
+    special_food_interval_end = setInterval(removeSpecialFood, 15000);
+    moving_score_interval = setInterval(moveMovingScore, 200);
 
 }
 
@@ -478,6 +533,7 @@ function drawFood(center, i, j) {
     }
 }
 
+
 function Draw() {
     canvas.width = canvas.width; //clean board
     lblScore.value = score;
@@ -543,11 +599,13 @@ function Draw() {
                 context.fill();
             } else if (board[i][j] == 5) {
                 draw_ghost(context, center.x + 10, center.y - 10, 1);
-            }  else if (board[i][j] == 20) {
+            } else if (board[i][j] == 20) {
                 drawSpecialFood(center);
-            } else if (board[i][j] == 21){
+            } else if (board[i][j] == 21) {
                 let img = document.getElementById("hourglass");
-                context.drawImage(img, center.x-15, center.y-15, 30, 30);
+                context.drawImage(img, center.x - 15, center.y - 15, 30, 30);
+            } else if (board[i][j] == 22) {
+                drawMovingScore(center);
             }
         }
     }
@@ -567,7 +625,7 @@ function Draw() {
         context.closePath();
         context.font = '20pt Montserrat';
         context.fillStyle = '#000000';
-        context.fillText('New Game', rect.x+25, rect.y+35);
+        context.fillText('New Game', rect.x + 25, rect.y + 35);
     }
 }
 
@@ -736,10 +794,12 @@ var rect = {
     heigth: 50
 };
 
-$(document).ready(function (){canvas.addEventListener('click', function(evt) {
-    var mousePos = getMousePos(canvas, evt);
-    debugger;
-    if (isInside(mousePos, rect) && game_over) {
-        goToGame();
-    }
-}, false);});
+$(document).ready(function () {
+    canvas.addEventListener('click', function (evt) {
+        var mousePos = getMousePos(canvas, evt);
+        debugger;
+        if (isInside(mousePos, rect) && game_over) {
+            goToGame();
+        }
+    }, false);
+});
