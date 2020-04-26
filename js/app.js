@@ -32,6 +32,7 @@ let fifteenColor = "#f542cb";
 let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
 let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
 
+let SpecialPills = new Array();
 var gameInProgress = false;
 var mySound;
 
@@ -161,44 +162,88 @@ function shuffleArray(array) {
     return array;
 }
 
-function Monster (x,y,food){
-    this.x=x;
-    this.y=y;
-    this.food=food;
+function Monster(x, y, food) {
+    this.x = x;
+    this.y = y;
+    this.food = food;
 }
 
 function moveMonster(monster) {
-    let verticalPosition = (monster.x - shape.i) > 0;
-    let horizontalPosition = (monster.y - shape.j) > 0;
+    let mUpP = (monster.x - shape.i) < 0;
+    let mLeftP = (monster.y - shape.j) < 0;
 
     if (monster.food !== null) {
         board[monster.x][monster.y] = monster.food;
-    }
-    else{
-        board[monster.x][monster.y] =0;
+    } else {
+        board[monster.x][monster.y] = 0;
     }
 
-    if (verticalPosition && monster.x>0 && board[monster.x - 1][monster.y] != 4) {
-        monster.x = monster.x - 1;
-    } else if (horizontalPosition && monster.y>0 && board[monster.x][monster.y - 1] != 4) {
-        monster.y =monster.y - 1;
-    } else if (!horizontalPosition && monster.y<canvas_height-1 && board[monster.x][monster.y + 1] != 4) {
-        monster.y = monster.y + 1;
-    } else if (!verticalPosition && monster.x<canvas_width-1 && board[monster.x + 1][monster.y] != 4) {
-        monster.x = monster.x + 1;
+    if (direction === RIGHT_DIRECTION || direction === LEFT_DIRECTION) {
+        // Chase To Right
+        if (mLeftP && monster.x < canvas_width - 1 && board[monster.x + 1][monster.y] != 4) {
+            monster.x = monster.x + 1;
+        }
+        //Chase To Left
+        else if (!mLeftP && monster.x > 0 && board[monster.x - 1][monster.y] != 4) {
+            monster.x = monster.x - 1;
+        }
+        //can't move there
+        else if (mUpP && monster.y > 0 && board[monster.x][monster.y - 1] != 4) {
+            monster.y = monster.y - 1;
+        } else if (monster.y < canvas_height - 1 && board[monster.x][monster.y + 1] != 4) {
+            monster.y = monster.y + 1;
+        }
+    } else {
+        //Chase Down
+        if (!mUpP && monster.x < canvas_width - 1 && board[monster.x][monster.y + 1] != 4) {
+            monster.y = monster.y + 1;
+        }
+        //Chase Up
+        else if (mUpP && monster.y > 0 && board[monster.x][monster.y - 1] != 4) {
+            monster.y = monster.y - 1;
+        } else if (mLeftP && monster.x < canvas_width - 1 && board[monster.x + 1][monster.y] != 4) {
+            monster.x = monster.x + 1;
+        } else if (!mLeftP && monster.x > 0 && board[monster.x - 1][monster.y] != 4) {
+            monster.x = monster.x - 1;
+        }
     }
+
     if (board[monster.x][monster.y] >= 11 && board[monster.x][monster.y] <= 13) {
         monster.food = board[monster.x][monster.y];
-    }
-    else{
-        monster.food=null;
+    } else {
+        monster.food = null;
     }
 
-    board[monster.x][monster.y]=5;
+    board[monster.x][monster.y] = 5;
     Draw();
 
 
 };
+
+function restartMonster() {
+    let monsterPlace = [1, 2, 3, 4];
+    monsterPlace = shuffleArray(monsterPlace);
+    ghosts.forEach(ghosts => function () {
+        let number = monsterPlace.pop();
+        if (number === 1) {
+            board[0][0] = 5;
+            ghosts.x = 0;
+            ghosts.y = 0;
+        } else if (number === 2) {
+            board[0][24] = 5;
+            ghosts.x = 0;
+            ghosts.y = 24;
+        } else if (number === 3) {
+            board[24][0] = 5;
+            ghosts.x = 24;
+            ghosts.y = 0;
+        } else {
+            board[24][24] = 5;
+            ghosts.x = 24;
+            ghosts.y = 24;
+        }
+    })
+}
 
 function setMonsters() {
     let monsterPlace = [1, 2, 3, 4];
@@ -209,7 +254,7 @@ function setMonsters() {
         let monster;
         if (number === 1) {
             board[0][0] = 5;
-            monster = new Monster(0,0, null);
+            monster = new Monster(0, 0, null);
         } else if (number === 2) {
             board[0][24] = 5;
             monster = new Monster(0, 24, null);
@@ -225,6 +270,36 @@ function setMonsters() {
     }
 }
 
+// ============== specialPill ====================
+function SpecialPill(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+function generateSpecialPill() {
+    let emptyCell = findRandomEmptyCell(board);
+    sp = new SpecialPill(emptyCell[0], emptyCell[1]);
+    board[sp.x][sp.y] = 20;
+    SpecialPills.push(sp);
+    draw();
+}
+
+function removeSpecialPill() {
+    while (SpecialPill.length > 0) {
+        let sp = SpecialPill.pop();
+        board[sp.x][sp.y] = 0;
+    }
+    draw();
+}
+
+function drawSpecialPill(center, i, j) {
+    context.beginPath();
+    context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
+    context.fillStyle = fiveColor; //color
+    context.shadowBlur = 20;
+    context.shadowColor=fiveColor;
+    context.fill();
+}
 
 function Start() {
     board = new Array();
@@ -301,8 +376,9 @@ function Start() {
         },
         false
     );
-    ghosts.forEach(ghost => setInterval(() =>moveMonster(ghost),200));
+    ghosts.forEach(ghost => setInterval(() => moveMonster(ghost), 200));
     interval = setInterval(UpdatePosition, 100);
+
 }
 
 
