@@ -386,7 +386,7 @@ function Start() {
 
 function initializeWalls() {
     walls_board = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0, 0, 0],
         [0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 4, 4, 0],
@@ -443,29 +443,29 @@ function drawFood(center, i, j) {
     var foodType = board[i][j];
     if (foodType == 11) {
         context.beginPath();
-        context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+        context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = fiveColor; //color
         context.fill();
-        context.lineWidth = 5;
+        context.lineWidth = 2;
         context.strokeStyle = '#003300';
         context.stroke();
     } else if (foodType == 12) {
         context.beginPath();
-        context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+        context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = tenColor; //color
         context.fill();
-        context.lineWidth = 5;
+        context.lineWidth = 2;
         context.strokeStyle = '#003300';
         context.stroke();
     } else if (foodType == 13) {
         context.beginPath();
-        context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+        context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = fifteenColor; //color
         context.fill();
-        context.lineWidth = 5;
+        context.lineWidth = 2;
         context.strokeStyle = '#003300';
         context.stroke();
     }
@@ -479,54 +479,51 @@ function Draw() {
     for (var i = 0; i < canvas_width; i++) {
         for (var j = 0; j < canvas_height; j++) {
             var center = new Object();
-            center.x = i * 60 + 30;
-            center.y = j * 60 + 30;
+            center.x = i * 30 + 30;
+            center.y = j * 30 + 30;
             if (board[i][j] == 2) {
                 if (direction == 1) {
                     //UP
                     context.beginPath();
-                    context.arc(center.x, center.y, 30, 1.67 * Math.PI, 1.37 * Math.PI); // half circle
+                    context.arc(center.x, center.y, 15, 1.67 * Math.PI, 1.37 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
                     context.fillStyle = pac_color; //color
                     context.fill();
-                    context.lineWidth = 5;
-                    context.strokeStyle = '#003300';
-                    context.stroke();
                     context.beginPath();
-                    context.arc(center.x - 15, center.y - 10, 5, 0, 2 * Math.PI); // circle
+                    context.arc(center.x - 7.5, center.y - 5, 2.5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
                 } else if (direction == 2) {
                     //DOWN
                     context.beginPath();
-                    context.arc(center.x, center.y, 30, 0.65 * Math.PI, 0.35 * Math.PI); // half circle
+                    context.arc(center.x, center.y, 15, 0.65 * Math.PI, 0.35 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
                     context.fillStyle = pac_color; //color
                     context.fill();
                     context.beginPath();
-                    context.arc(center.x + 14, center.y - 3, 5, 0, 2 * Math.PI); // circle
+                    context.arc(center.x + 3.5, center.y - 1.5, 2.5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
                 } else if (direction == 3) {
                     //LEFT
                     context.beginPath();
-                    context.arc(center.x, center.y, 30, 1.15 * Math.PI, 0.85 * Math.PI); // half circle
+                    context.arc(center.x, center.y, 15, 1.15 * Math.PI, 0.85 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
                     context.fillStyle = pac_color; //color
                     context.fill();
                     context.beginPath();
-                    context.arc(center.x - 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+                    context.arc(center.x - 2.5, center.y - 7.5, 2.5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
                 } else if (direction == 4) {
                     //RIGHT - DEFAULT
                     context.beginPath();
-                    context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+                    context.arc(center.x, center.y, 15, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
                     context.fillStyle = pac_color; //color
                     context.fill();
                     context.beginPath();
-                    context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+                    context.arc(center.x + 2.5, center.y - 7.5, 2.5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
                 }
@@ -534,20 +531,34 @@ function Draw() {
                 drawFood(center, i, j);
             } else if (board[i][j] == 4) {
                 context.beginPath();
-                context.rect(center.x - 30, center.y - 30, 60, 60);
+                context.rect(center.x - 15, center.y - 15, 30, 30);
                 context.fillStyle = "grey"; //color
                 context.fill();
             } else if (board[i][j] == 5) {
-                draw_ghost(context, center.x + 10, center.y - 10, 1);
+                draw_ghost(context, center.x + 10, center.y - 10, 0.1);
             } else if (board[i][j] == 21){
                 let img = document.getElementById("hourglass");
-                context.drawImage(img, center.x-25, center.y-25, 45, 45);
+                context.drawImage(img, center.x-15, center.y-15, 30, 30);
             }
         }
     }
     if(game_over){
         let img = document.getElementById("gameOver");
-        context.drawImage(img, 100, 100, 1400, 1000);
+        context.drawImage(img, 100, 50, 600, 450);
+
+        context.beginPath();
+        context.rect(rect.x, rect.y, rect.width, rect.heigth);
+        context.fillStyle = '#FFFFFF';
+        context.fillStyle = 'rgba(225,225,225,0.5)';
+        context.fillRect(rect.x, rect.y, rect.width, rect.heigth);
+        context.fill();
+        context.lineWidth = 2;
+        context.strokeStyle = '#000000';
+        context.stroke();
+        context.closePath();
+        context.font = '20pt Montserrat';
+        context.fillStyle = '#000000';
+        context.fillText('New Game', rect.x+25, rect.y+35);
     }
 }
 
@@ -692,3 +703,30 @@ function sound(src) {
         this.sound.pause();
     }
 }
+
+function getMousePos(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
+}
+
+function isInside(pos, rect) {
+    return pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.heigth && pos.y > rect.y
+}
+
+var rect = {
+    x: 300,
+    y: 350,
+    width: 200,
+    heigth: 50
+};
+
+$(document).ready(function (){canvas.addEventListener('click', function(evt) {
+    var mousePos = getMousePos(canvas, evt);
+    debugger;
+    if (isInside(mousePos, rect) && game_over) {
+        goToGame();
+    }
+}, false);});
