@@ -23,7 +23,7 @@ $(document).ready(function () {
             var username = document.getElementById("loginUserName").value;
             var password = document.getElementById("loginPassword").value;
 
-            var myMap = JSON.parse(localStorage.myMap);
+            var myMap = JSON.parse(sessionStorage.myMap);
             var found = false;
 
             for (let i = 0; i < myMap.length; i++) {

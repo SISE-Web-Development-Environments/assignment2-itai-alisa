@@ -22,7 +22,7 @@
 
     <script type="text/javascript">
         var map = new Map([["p", "p"]]);
-        localStorage.myMap = JSON.stringify(Array.from(map.entries()));
+        sessionStorage.myMap = JSON.stringify(Array.from(map.entries()));
     </script>
 </head>
 
@@ -124,7 +124,6 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             <button id="loginSubmit" class="mx-2 switch btn btn-lg btn-outline-primary">
                 <span>Login</span>
             </button>
-
         </form>
     </div>
 
