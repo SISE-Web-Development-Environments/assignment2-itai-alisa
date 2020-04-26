@@ -22,7 +22,7 @@ let max_monsters = 4;
 let min_monsters = 1;
 
 let game_time = 60;
-let min_time = 10;
+let min_time = 2;
 let max_time = 300;
 
 let fiveColor = "#eff542";
@@ -33,6 +33,7 @@ let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
 let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
 
 let SpecialPills = new Array();
+var game_over = false;
 var gameInProgress = false;
 var mySound;
 
@@ -306,6 +307,7 @@ function Start() {
     score = 0;
     direction = 4;
     pac_color = "yellow";
+    game_over = false;
     mySound = new sound("resources/original.mp3");
     mySound.play();
     initializeWalls();
@@ -445,18 +447,27 @@ function drawFood(center, i, j) {
         var randomNum = Math.random();
         context.fillStyle = fiveColor; //color
         context.fill();
+        context.lineWidth = 5;
+        context.strokeStyle = '#003300';
+        context.stroke();
     } else if (foodType == 12) {
         context.beginPath();
         context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = tenColor; //color
         context.fill();
+        context.lineWidth = 5;
+        context.strokeStyle = '#003300';
+        context.stroke();
     } else if (foodType == 13) {
         context.beginPath();
         context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = fifteenColor; //color
         context.fill();
+        context.lineWidth = 5;
+        context.strokeStyle = '#003300';
+        context.stroke();
     }
 }
 
@@ -478,6 +489,9 @@ function Draw() {
                     context.lineTo(center.x, center.y);
                     context.fillStyle = pac_color; //color
                     context.fill();
+                    context.lineWidth = 5;
+                    context.strokeStyle = '#003300';
+                    context.stroke();
                     context.beginPath();
                     context.arc(center.x - 15, center.y - 10, 5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
@@ -527,9 +541,13 @@ function Draw() {
                 draw_ghost(context, center.x + 10, center.y - 10, 1);
             } else if (board[i][j] == 21){
                 let img = document.getElementById("hourglass");
-                context.drawImage(img, center.x, center.y, 45, 45);
+                context.drawImage(img, center.x-25, center.y-25, 45, 45);
             }
         }
+    }
+    if(game_over){
+        let img = document.getElementById("gameOver");
+        context.drawImage(img, 100, 100, 1400, 1000);
     }
 }
 
@@ -550,6 +568,7 @@ function ghostEncounter() {
         lives--;
         if(lives == 0){
             window.alert("Loser!");
+            pac_color = "red";
             gameOver();
         }
         else{
@@ -561,13 +580,14 @@ function ghostEncounter() {
 }
 
 function gameOver(){
+    game_over = true;
     mySound.stop();
     window.clearInterval(interval);
 }
 
 function hourGlassEncounter() {
-    if (board[shape.i][shape.j] == 5) {
-        game_time+=10;
+    if (board[shape.i][shape.j] == 21) {
+        game_time=game_time+10;
     }
 }
 
@@ -602,19 +622,21 @@ function UpdatePosition() {
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
-    if (score >= 10 && time_elapsed >= game_time) {
+    if(time_elapsed >= game_time){
+        if(score >= 100){
+            window.alert("Winner!!!");
+            pac_color = "green";
+        } else {
+            window.alert("You are better than " + score + " points!");
+            pac_color = "red";
+        }
+        Draw();
+        gameOver();
+    } else if (score == 100) {
+        Draw();
         gameOver();
         window.alert("Winner!!!");
         pac_color = "green";
-    }
-    if (score > 100 && time_elapsed >= game_time) {
-        gameOver();
-        window.alert("Winner!!!");
-        pac_color = "green";
-    }
-    if (score == 50) {
-        gameOver();
-        window.alert("Game completed");
     } else {
         Draw();
     }
