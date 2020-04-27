@@ -152,7 +152,7 @@ function fillSettingBoard() {
     user_name_settings.innerText = sessionStorage.getItem("currentUser");
     game_time_id.innerText = game_time;
     balls_number_id.innerText = food_remain;
-    num_of_monsters_id.innerText = monsters_remain;
+    num_of_monsters_id.innerText = ghosts_remain;
     left_arrow_id.innerText = KeyBoardValues.left;
     right_arrow_id.innerText = KeyBoardValues.right;
     down_arrow_id.innerText = KeyBoardValues.down;
