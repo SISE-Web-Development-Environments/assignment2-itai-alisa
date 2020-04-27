@@ -23,7 +23,7 @@ let max_monsters = 4;
 let min_monsters = 1;
 
 let game_time = 60;
-let min_time = 2;
+let min_time = 60;
 let max_time = 300;
 
 let fiveColor = "#eff542";
@@ -41,7 +41,7 @@ let special_food_eated;
 //Ghost
 let ghosts = new Array();
 
-//
+//moving_score
 let moving_score;
 let moving_score_eated;
 
@@ -260,7 +260,7 @@ function moveMovingScore() {
 function drawMovingScore(center) {
     context.fillStyle = "#bac708";
     context.font = "20px Arial";
-    context.fillText("+50", center.x, center.y);
+    context.fillText("+50", center.x, center.y+10);
 }
 
 
@@ -673,7 +673,9 @@ function Draw() {
                 let img = document.getElementById("hourglass");
                 context.drawImage(img, center.x - 15, center.y - 15, 30, 30);
             } else if (board[i][j] == MOVING_SCORE) {
-                drawMovingScore(center);
+                let img = document.getElementById("50");
+                context.drawImage(img, center.x - 15, center.y - 15, 37, 37);
+                // drawMovingScore(center);
             }
         }
     }
