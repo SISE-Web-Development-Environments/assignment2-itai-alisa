@@ -23,7 +23,7 @@ let max_monsters = 4;
 let min_monsters = 1;
 
 let game_time = 60;
-let min_time = 2;
+let min_time = 60;
 let max_time = 300;
 
 let fiveColor = "#eff542";
@@ -41,13 +41,15 @@ let special_food_eated;
 //Ghost
 let ghosts = new Array();
 
-//
+//moving_score
 let moving_score;
+let moving_score_eated;
 
 var game_over = false;
 var gameInProgress = false;
 var mySound;
 
+// Const
 const UP_DIRECTION = 1;
 const DOWN_DIRECTION = 2;
 const LEFT_DIRECTION = 3;
@@ -65,9 +67,6 @@ const WALL =31;
 const GHOST =32;
 
 
-function calculateDistance(x1, y1, x2, y2) {
-    return Math.sqrt((Math.pow(x1-x2,2))+Math.pow(y1-y2,2));
-}
 
 
 // =============== Settings ===================
@@ -97,7 +96,13 @@ function randomSettings() {
     // === Game Time
     game_time = Math.floor(Math.random() * (max_time - min_time + 1)) + min_time;
     document.getElementById('gameTimeForm').value = game_time;
-
+    // === Colors
+    document.getElementById("fiveColorForm").value =
+        "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
+    document.getElementById("tenColorForm").value =
+        "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
+    document.getElementById("fifteenColorForm").value =
+        "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
 }
 
 function validateNumBalls(element) {
@@ -204,56 +209,58 @@ function MovingScore(x, y, food) {
 }
 
 function moveMovingScore() {
-    if (moving_score.food !== null) {
-        board[moving_score.x][moving_score.y] = moving_score.food;
-    } else {
-        board[moving_score.x][moving_score.y] = CLEAR;
-    }
+    if(!moving_score_eated){
+        if (moving_score.food !== null) {
+            board[moving_score.x][moving_score.y] = moving_score.food;
+        } else {
+            board[moving_score.x][moving_score.y] = CLEAR;
+        }
 
-    let dir = Math.random();
-    //Down
-    if (dir < 0.25 &&
-        moving_score.y < canvas_height - 1 &&
-        board[moving_score.x][moving_score.y + 1]<30
-    ) {
-        moving_score.y +=1;
-        //Up
-    } else if (dir < 0.5 &&
-        moving_score.y > 0 &&
-        board[moving_score.x][moving_score.y - 1]<30
-    ) {
-        moving_score.y -=1;
-        //Left
-    } else if (dir < 0.75 &&
-        moving_score.x > 0 &&
-        board[moving_score.x - 1][moving_score.y]<30
-    ) {
-        moving_score.x -=1;
-        //Right
-    } else if (dir <= 1 &&
-        moving_score.x < canvas_width - 1 &&
-        board[moving_score.x + 1][moving_score.y]<30
-    ) {
-        moving_score.x +=1;
-    }
+        let dir = Math.random();
+        //Down
+        if (dir < 0.25 &&
+            moving_score.y < canvas_height - 1 &&
+            board[moving_score.x][moving_score.y + 1]<30
+        ) {
+            moving_score.y +=1;
+            //Up
+        } else if (dir < 0.5 &&
+            moving_score.y > 0 &&
+            board[moving_score.x][moving_score.y - 1]<30
+        ) {
+            moving_score.y -=1;
+            //Left
+        } else if (dir < 0.75 &&
+            moving_score.x > 0 &&
+            board[moving_score.x - 1][moving_score.y]<30
+        ) {
+            moving_score.x -=1;
+            //Right
+        } else if (dir <= 1 &&
+            moving_score.x < canvas_width - 1 &&
+            board[moving_score.x + 1][moving_score.y]<30
+        ) {
+            moving_score.x +=1;
+        }
 
 
-    let boardElementInPosition = board[moving_score.x][moving_score.y];
-    if (boardElementInPosition >= 11 && boardElementInPosition <= 22) {
-        moving_score.food = boardElementInPosition;
-    }
-    else{
-        moving_score.food = null;
-    }
+        let boardElementInPosition = board[moving_score.x][moving_score.y];
+        if (boardElementInPosition >= 11 && boardElementInPosition <= 22) {
+            moving_score.food = boardElementInPosition;
+        }
+        else{
+            moving_score.food = null;
+        }
 
-    board[moving_score.x][moving_score.y] = MOVING_SCORE;
+        board[moving_score.x][moving_score.y] = MOVING_SCORE;
+    }
 
 }
 
 function drawMovingScore(center) {
     context.fillStyle = "#bac708";
     context.font = "20px Arial";
-    context.fillText("+50", center.x, center.y);
+    context.fillText("+50", center.x, center.y+10);
 }
 
 
@@ -410,8 +417,10 @@ function generateSpecialFood() {
 function removeSpecialFood() {
     if(!special_food_eated && special_food){
         board[special_food.x][special_food.y] = CLEAR;
+
     }
     special_food=null;
+
 }
 
 function drawSpecialFood(center) {
@@ -426,7 +435,6 @@ function drawSpecialFood(center) {
 
 }
 
-
 /// ============== Game =======================
 function Start() {
     board = new Array();
@@ -435,6 +443,7 @@ function Start() {
     direction = 4;
     pac_color = "yellow";
     game_over = false;
+    moving_score_eated = false;
     mySound = new sound("resources/original.mp3");
     mySound.play();
     initializeWalls();
@@ -512,8 +521,10 @@ function Start() {
 }
 
 function gameOver() {
-    game_over = true;
     mySound.stop();
+    let gameOver = new sound("resources/gameOver.mp3");
+    gameOver.play();
+    game_over = true;
     window.clearInterval(interval);
     interval_counter=0;
     ghosts.length = 0
@@ -547,8 +558,12 @@ function UpdatePosition() {
     //All 200
     if(interval_counter%2===0){
         ghosts.forEach(ghost => moveGhost(ghost));
-        moveMovingScore();
     }
+    //All 400
+     if (interval_counter%4===0){
+         moveMovingScore();
+     }
+
     //All 1000
     if(interval_counter%100===0){
         generateSpecialFood();
@@ -586,7 +601,7 @@ function UpdatePosition() {
     }
 }
 
-//Draw
+// ============== Draw ==============
 function Draw() {
     canvas.width = canvas.width; //clean board
     lblScore.innerText = score;
@@ -598,8 +613,7 @@ function Draw() {
             center.x = i * 30 + 30;
             center.y = j * 30 + 30;
             if (board[i][j] == 2) {
-                if (direction == 1) {
-                    //UP
+                if (direction == UP_DIRECTION) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 1.67 * Math.PI, 1.37 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
@@ -609,8 +623,7 @@ function Draw() {
                     context.arc(center.x - 7.5, center.y - 5, 2.5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
-                } else if (direction == 2) {
-                    //DOWN
+                } else if (direction == DOWN_DIRECTION) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 0.65 * Math.PI, 0.35 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
@@ -620,8 +633,7 @@ function Draw() {
                     context.arc(center.x + 3.5, center.y - 1.5, 2.5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
-                } else if (direction == 3) {
-                    //LEFT
+                } else if (direction == LEFT_DIRECTION) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 1.15 * Math.PI, 0.85 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
@@ -631,8 +643,7 @@ function Draw() {
                     context.arc(center.x - 2.5, center.y - 7.5, 2.5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
-                } else if (direction == 4) {
-                    //RIGHT - DEFAULT
+                } else if (direction == RIGHT_DIRECTION) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
                     context.lineTo(center.x, center.y);
@@ -651,14 +662,20 @@ function Draw() {
                 context.fillStyle = "grey"; //color
                 context.fill();
             } else if (board[i][j] == GHOST) {
-                draw_ghost(context, center.x + 10, center.y - 10, 1);
+                // draw_ghost(context, center.x + 10, center.y - 10, 1);
+                let img = document.getElementById("ghost");
+                context.drawImage(img, center.x - 15, center.y - 15, 30, 30);
             } else if (board[i][j] == SPECIAL_FOOD) {
-                drawSpecialFood(center);
+                let img = document.getElementById("specialFood");
+                context.drawImage(img, center.x - 15, center.y - 15, 30, 30);
+                // drawSpecialFood(center);
             } else if (board[i][j] == HOUR_GLASS) {
                 let img = document.getElementById("hourglass");
                 context.drawImage(img, center.x - 15, center.y - 15, 30, 30);
             } else if (board[i][j] == MOVING_SCORE) {
-                drawMovingScore(center);
+                let img = document.getElementById("50");
+                context.drawImage(img, center.x - 15, center.y - 15, 37, 37);
+                // drawMovingScore(center);
             }
         }
     }
@@ -797,7 +814,7 @@ function draw_ghost(ctx, center_x, center_y, scale) {
     ctx.fill();
 }
 
-// Encounter Functions
+// ============== Encounter Functions ==============
 function hourGlassEncounter() {
     if (board[shape.i][shape.j] == HOUR_GLASS) {
         game_time = game_time + 10;
@@ -813,6 +830,7 @@ function foodScoreCalculator(i, j) {
     } else if (foodType == FIFTEEN_POINT) {
         score += 15;
     } else if (foodType == SPECIAL_FOOD){
+        special_food_eated = true;
         let num = Math.random();
         if(num<0.5){
             score +=50;
@@ -831,6 +849,10 @@ function ghostEncounter() {
             pac_color = "red";
             gameOver();
         } else {
+            mySound.stop();
+            let ghost = new sound("resources/ghost.mp3");
+            ghost.play();
+            mySound.play();
             restartGhosts();
             var emptyCell = findRandomEmptyCell(board);
             shape.i = emptyCell[0];
@@ -842,10 +864,11 @@ function ghostEncounter() {
 function movingScoreEncounter() {
     if (board[shape.i][shape.j] === MOVING_SCORE) {
         score += 50;
+        moving_score_eated = true;
     }
 }
 
-//Help Functions
+// ============== Help Functions ==============
 function initializeWalls() {
     walls_board = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -927,6 +950,11 @@ function getMousePos(canvas, event) {
 function isInside(pos, rect) {
     return pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.heigth && pos.y > rect.y
 }
+
+function calculateDistance(x1, y1, x2, y2) {
+    return Math.sqrt((Math.pow(x1-x2,2))+Math.pow(y1-y2,2));
+}
+
 
 var rect = {
     x: 300,
