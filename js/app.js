@@ -12,6 +12,7 @@ var canvas_width = 25;
 var walls_board;
 var lives = 5;
 
+let interval_counter =0;
 // Settings
 let food_remain = 90;
 let max_food = 90;
@@ -491,12 +492,6 @@ function Start() {
         false
     );
     interval = setInterval(UpdatePosition, 100);
-    ghosts.forEach(ghost =>
-        ghosts_intervals.push(setInterval(() => moveGhost(ghost), 200)));
-    special_food_interval_start = setInterval(generateSpecialPill, 10000);
-    special_food_interval_end = setInterval(removeSpecialFood, 15000);
-    moving_score_interval = setInterval(moveMovingScore, 200);
-
 }
 
 function initializeWalls() {
@@ -706,24 +701,16 @@ function ghostEncounter() {
             var emptyCell = findRandomEmptyCell(board);
             shape.i = emptyCell[0];
             shape.j = emptyCell[1];
-
         }
     }
 }
 
-function clearIntervals() {
-    window.clearInterval(interval);
-    window.clearInterval(special_food_interval_start);
-    window.clearInterval(special_food_interval_end);
-    window.clearInterval(moving_score_interval);
-    ghosts_intervals.forEach(interval => window.clearInterval(interval));
-    ghosts_intervals.length=0;
-}
 
 function gameOver() {
     game_over = true;
     mySound.stop();
-    clearIntervals();
+    window.clearInterval(interval);
+    interval_counter=0;
     ghosts.length = 0
 }
 
@@ -734,6 +721,7 @@ function hourGlassEncounter() {
 }
 
 function UpdatePosition() {
+    interval_counter++;
     board[shape.i][shape.j] = 0;
     var x = GetKeyPressed();
     if (x == 1) {
@@ -755,6 +743,20 @@ function UpdatePosition() {
         if (shape.i < canvas_width - 1 && board[shape.i + 1][shape.j] != 4) {
             shape.i++;
         }
+    }
+
+    //All 200
+    if(interval_counter%2===0){
+        ghosts.forEach(ghost => moveGhost(ghost));
+        moveMovingScore();
+    }
+    //All 1000
+    if(interval_counter%100===0){
+        generateSpecialPill();
+    }
+    //All 1500
+    if(interval_counter%150===0){
+        removeSpecialFood();
     }
     foodScoreCalculator();
     ghostEncounter();
