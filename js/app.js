@@ -36,16 +36,13 @@ let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', dow
 // specialFood
 let special_food=null;
 let special_food_eated;
-let special_food_interval_start;
-let special_food_interval_end;
+
 
 //Ghost
-let ghosts_intervals=[];
 let ghosts = new Array();
 
 //
 let moving_score;
-let moving_score_interval;
 
 var game_over = false;
 var gameInProgress = false;
@@ -55,6 +52,19 @@ const UP_DIRECTION = 1;
 const DOWN_DIRECTION = 2;
 const LEFT_DIRECTION = 3;
 const RIGHT_DIRECTION = 4;
+
+
+const FIVE_POINT = 11;
+const TEN_POINT =12;
+const FIFTEEN_POINT =13;
+const WALL =30;
+const GHOST =31;
+const MOVING_SCORE = 20;
+const SPECIAL_FOOD =22;
+const PACMAN = 2;
+const HOURGLASS = 21;
+
+
 
 // =============== Settings ===================
 function randomSettings() {
@@ -198,16 +208,19 @@ function moveMovingScore() {
 
     let dir = Math.random();
     //Down
-    if (dir < 0.25 && moving_score.y < canvas_height - 1 && board[moving_score.x][moving_score.y + 1]!==4) {
+    if (dir < 0.25 &&
+        moving_score.y < canvas_height - 1 &&
+        board[moving_score.x][moving_score.y + 1]!==4  &&
+        board[moving_score.x][moving_score.y + 1]!==5) {
         moving_score.y +=1;
         //Up
-    } else if (dir < 0.5 && moving_score.y > 0 && board[moving_score.x][moving_score.y - 1]!==4) {
+    } else if (dir < 0.5 && moving_score.y > 0 && board[moving_score.x][moving_score.y - 1]!==4 && board[moving_score.x][moving_score.y + 1]!==5) {
         moving_score.y -=1;
         //Left
-    } else if (dir < 0.75 && moving_score.x > 0 && board[moving_score.x - 1][moving_score.y]!==4) {
+    } else if (dir < 0.75 && moving_score.x > 0 && board[moving_score.x - 1][moving_score.y]!==4 && board[moving_score.x][moving_score.y + 1]!==5) {
         moving_score.x -=1;
         //Right
-    } else if (dir <= 1 && moving_score.x < canvas_width - 1 && board[moving_score.x + 1][moving_score.y]!==4) {
+    } else if (dir <= 1 && moving_score.x < canvas_width - 1 && board[moving_score.x + 1][moving_score.y]!==4 && board[moving_score.x][moving_score.y + 1]!==5) {
         moving_score.x +=1;
     }
 
@@ -216,8 +229,7 @@ function moveMovingScore() {
     if (
         (boardElementInPosition >= 11 && boardElementInPosition <= 13) ||
         boardElementInPosition===21 ||
-        boardElementInPosition===20 ||
-        boardElementInPosition===5) {
+        boardElementInPosition===20) {
         moving_score.food = boardElementInPosition;
     }
     else{
