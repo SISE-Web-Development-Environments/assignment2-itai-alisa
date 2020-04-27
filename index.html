@@ -55,7 +55,8 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
 
 
 <div id="Content" class="container">
-    <div id="welcome" class="align-items-center flex-column " style="text-align: center; alignment: center">
+
+    <div id="welcome" class="align-items-center flex-column " style="text-align: center; alignment: center; padding: 130px 0">
         <div class="row">
             <img class="masthead-avatar mb-5" src="resources/itai.svg" alt=""/>
             <img class="masthead-avatar mb-5" src="resources/alisa.svg" alt=""/>
@@ -73,16 +74,18 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             </div>
         </div>
     </div>
+
     <div id="signUp" style="display: none">
+        <H4 id="signUpHeader"></H4>
         <form class="needs-validation" id="signUpForm" novalidate>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="usernameSingUp">User Name</label>
+                    <label for="usernameSingUp"><b>User Name</b></label>
                     <input type="text" class="form-control" id="usernameSingUp" name="usernameSingUp"
                            placeholder="User Name" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="passwordSignUp">Password</label>
+                    <label for="passwordSignUp"><b>Password</b></label>
                     <input type="password" class="form-control" id="passwordSignUp" name="passwordSignUp"
                            placeholder="Password"
                            pattern="(?=.*\d)(?=.*[a-zA-z]).{6,}" required>
@@ -91,7 +94,7 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="firstNameSignUp">First Name</label>
+                    <label for="firstNameSignUp"><b>First Name</b></label>
                     <input type="text" class="form-control" id="firstNameSignUp" name="firstNameSignUp"
                            placeholder="First Name"
                            pattern="[A-Za-z]+" required>
@@ -99,18 +102,33 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
 
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="lastNameSignUp">Last Name</label>
+                    <label for="lastNameSignUp"><b>Last Name</b></label>
                     <input type="text" class="form-control" id="lastNameSignUp" name="lastNameSignUp"
                            placeholder="Last Name"
                            pattern="[A-Za-z]+" required>
                     <div class="invalid-feedback">Please Enter Only Letters</div>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="emailSignUp"><b>Email</b></label>
+                    <input type="email" class="form-control" id="emailSignUp" name="emailSignUp" placeholder="aa@bb.com" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="birthdaySignUp"><b>Birth Date</b></label>
+                    <input type="date" class="form-control" id="birthdaySignUp" name="birthdaySignUp" placeholder="dd/mm/yyyy" required>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <button Type="button" id="signUpButton" class="mx-2 switch btn btn-lg btn-outline-primary">
+                    <span>Sign Up</span>
+                </button>
+            </div>
         </form>
     </div>
 
     <div id="login" class="container" style="display: none">
-        <H4 id="loginHeader"><b>Login</b></H4>
+        <H4 id="loginHeader"></H4>
         <form id="loginForm" novalidate>
             <div class="form-row">
                 <label for="loginUserName"><b>Username</b></label>
@@ -122,9 +140,11 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
                 <input type="password" id="loginPassword" placeholder="Enter Password" name="psw" class="form-control"
                        required>
             </div>
-            <button id="loginSubmit" class="mx-2 switch btn btn-lg btn-outline-primary">
-                <span>Login</span>
-            </button>
+            <div style="text-align: center">
+                <button Type="button" id="loginSubmit" class="mx-2 switch btn btn-lg btn-outline-primary">
+                    <span>Login</span>
+                </button>
+            </div>
         </form>
     </div>
 
@@ -216,122 +236,114 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         </div>
     </div>
 
-    <script>
-        // Get the modal
-        var modal = document.getElementById("about");
+    <div id="ourGame" style="display: block; text-align: center; align-items: center">
+        <div class="container" style="text-align: center">
+            <div class="row">
+                <div class="col-sm-2" style="background-color:rgba(26,196,164,0.14) ;text-align: left;">
+                    <br>
+                    <a style="font-size: 20px"><strong>Hi, </strong></a>
+                    <div class="settings_property" id="user_name_settings" style="font-size: 20px; font-weight: bold"></div>
+                    <br>
+                    <a style="font-size: 20px; text-align: center"><strong>Game Settings</strong></a>
+                    <br>
+                    <br>
+                    <a style="font-size: 12px"><strong>Game Time (seconds): </strong></a>
+                    <div class="settings_property" id="game_time_id"></div>
+                    <br>
+                    <a style="font-size: 12px"><strong>Number of Balls: </strong></a>
+                    <div class="settings_property" id="balls_number_id"></div>
+                    <br>
+                    <a style="font-size: 12px"><strong>Number of Monsters: </strong></a>
+                    <div class="settings_property" id="num_of_monsters_id"></div>
+                    <br>
+                    <br>
+                    <a style="font-size: 20px; text-align: center"><strong>Game Arrows</strong></a>
+                    <br>
+                    <br>
+                    <a style="font-size: 12px"><strong>Left Arrow: </strong></a>
+                    <div class="settings_property" id="left_arrow_id"></div>
+                    <br>
+                    <a style="font-size: 12px"><strong>Right Arrow: </strong></a>
+                    <div class="settings_property" id="right_arrow_id"></div>
+                    <br>
+                    <a style="font-size: 12px"><strong>Down Arrow: </strong></a>
+                    <div class="settings_property" id="down_arrow_id"></div>
+                    <br>
+                    <a style="font-size: 12px"><strong>Up Arrow: </strong></a>
+                    <div class="settings_property" id="up_arrow_id"></div>
+                    <br>
+                    <br>
+                    <a style="font-size: 20px; text-align: center"><strong>Food Colors</strong></a>
+                    <br>
+                    <br>
+                    <a style="font-size: 12px"><strong>Five points color: </strong></a>
+                    <span id="five_points_id" class="settings_property fa fa-circle"></span>
+                    <a style="font-size: 12px; display: inline-block"><strong>Ten points color: </strong></a>
+                    <span id="ten_points_id" class="settings_property fa fa-circle"></span>
+                    <a style="font-size: 12px; display: inline-block"><strong>Fifteen points color: </strong></a>
+                    <span id="fifteen_points_id" class="settings_property fa fa-circle"></span>
+                </div>
+                <div id="game" class="col-sm-9" style="text-align: center">
+                    <canvas id="canvas" height="620" width="770" style="outline: black 3px solid;display: inline;"></canvas>
+                </div>
+                <div class="col-sm-1" style="background-color:rgba(26,196,164,0.14) ;text-align: center;">
+                    <div id="score" class="form-group" style="padding-top: 150px">
+                        <label for="lblScore"><b>SCORE</b></label>
+                        <div id="lblScore" type="text"></div>
+                    </div>
+                    <div id="time" class="form-group" style="padding-top: 75px">
+                        <label for="lblTime"><b>TIME</b></label>
+                        <div id="lblTime" type="text"></div>
+                    </div>
+                    <div id="lives" class="form-group" style="padding-top: 75px">
+                        <label for="lblLives"><b>LIVES</b></label>
+                        <div id="lblLives" type="text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Get the button that opens the modal
-        var btn = document.getElementById("aboutButton");
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        $(document).keydown(function (e) {
-            var code = e.keyCode || e.which;
-            if (code == 27) modal.style.display = "none";
-        });
-
-        // When the user clicks the button, open the modal
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-
-    </script>
     <img id="ghost"
          src="resources/ghost.png" alt="The Scream" style="display: none">
     <img id="hourglass"
          src="resources/hourglass.png" alt="The Scream" style="display: none">
     <img id="gameOver"
          src="resources/gameOver.webp" alt="The Scream" style="display: none">
-
-
-    <div id="ourGame" style="display: block; text-align: center; align-items: center">
-        <div class="container" style="text-align: center">
-            <div class="row">
-                <div class="col-sm-3" style="background-color:antiquewhite;text-align: left; padding-left: 20px">
-                    <br>
-                    <a style="font-size: 24px"><strong>Hi, </strong></a>
-                    <div class="settings_property" id="user_name_settings"></div>
-                    <br>
-                    <a style="font-size: 24px; text-align: center"><strong>Game Settings</strong></a>
-                    <br>
-                    <br>
-                    <a style="font-size: 16px"><strong>Game Time (seconds): </strong></a>
-                    <div class="settings_property" id="game_time_id"></div>
-                    <br>
-                    <a style="font-size: 16px"><strong>Number of Balls: </strong></a>
-                    <div class="settings_property" id="balls_number_id"></div>
-                    <br>
-                    <a style="font-size: 16px"><strong>Number of Monsters: </strong></a>
-                    <div class="settings_property" id="num_of_monsters_id"></div>
-                    <br>
-                    <br>
-                    <a style="font-size: 24px; text-align: center"><strong>Game Arrows</strong></a>
-                    <br>
-                    <br>
-                    <a style="font-size: 16px"><strong>Left Arrow: </strong></a>
-                    <div class="settings_property" id="left_arrow_id"></div>
-                    <br>
-                    <a style="font-size: 16px"><strong>Right Arrow: </strong></a>
-                    <div class="settings_property" id="right_arrow_id"></div>
-                    <br>
-                    <a style="font-size: 16px"><strong>Down Arrow: </strong></a>
-                    <div class="settings_property" id="down_arrow_id"></div>
-                    <br>
-                    <a style="font-size: 16px"><strong>Up Arrow: </strong></a>
-                    <div class="settings_property" id="up_arrow_id"></div>
-                    <br>
-                    <br>
-                    <a style="font-size: 24px; text-align: center"><strong>Balls Colors</strong></a>
-                    <br>
-                    <br>
-                    <a style="font-size: 16px"><strong>Five points color: </strong></a>
-                    <span id="five_points_id" class="settings_property fa fa-circle"></span>
-                    <a style="font-size: 16px; display: inline-block"><strong>Ten points color: </strong></a>
-                    <span id="ten_points_id" class="settings_property fa fa-circle"></span>
-                    <a style="font-size: 16px; display: inline-block"><strong>Fifteen points color: </strong></a>
-                    <span id="fifteen_points_id" class="settings_property fa fa-circle"></span>
-                </div>
-                <div class="col-sm-1" style="background-color:white;">
-                </div>
-                <div id="game" class="col-sm-4" style="text-align: center">
-                    <canvas id="canvas" height="620" width="770" style="outline: black 3px solid;display: inline;"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="form-row" style="margin-left: 30px">
-            <div id="score" class="form-group col-md-3">
-                <label for="lblScore">SCORE</label>
-                <input id="lblScore" type="text" disabled>
-            </div>
-            <div id="time" class="form-group col-md-3">
-                <label for="lblTime">TIME</label>
-                <input id="lblTime" type="text" disabled>
-            </div>
-            <div id="lives" class="form-group col-md-3">
-                <label for="lblLives">LIVES</label>
-                <input id="lblLives" type="text" disabled>
-            </div>
-            <div id="scrolling" class="form-group col-md-3">
-                <button>disable scroll</button>
-            </div>
-        </div>
-    </div>
 </div>
 
+<script>
+    // Get the modal
+    var modal = document.getElementById("about");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("aboutButton");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    $(document).keydown(function (e) {
+        var code = e.keyCode || e.which;
+        if (code == 27) modal.style.display = "none";
+    });
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 
 
