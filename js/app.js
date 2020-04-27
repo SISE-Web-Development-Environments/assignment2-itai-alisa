@@ -147,6 +147,20 @@ function setKeys() {
     });
 }
 
+function fillSettingBoard() {
+    user_name_settings.innerText = sessionStorage.getItem("currentUser");
+    game_time_id.innerText = game_time;
+    balls_number_id.innerText = food_remain;
+    num_of_monsters_id.innerText = monsters_remain;
+    left_arrow_id.innerText = KeyBoardValues.left;
+    right_arrow_id.innerText = KeyBoardValues.right;
+    down_arrow_id.innerText = KeyBoardValues.down;
+    up_arrow_id.innerText = KeyBoardValues.up;
+    five_points_id.style.color = fiveColor;
+    ten_points_id.style.color = tenColor;
+    fifteen_points_id.style.color = fifteenColor;
+}
+
 function goToGame() {
     monsters_remain = parseInt(document.getElementById("monstersForm").value);
     fiveColor = document.getElementById("fiveColorForm").value;
@@ -161,6 +175,8 @@ function goToGame() {
         gameInProgress = true;
         Start();
     }
+    fillSettingBoard();
+    switchDiv('ourGame');
 }
 
 // =========== Moving Score ========
@@ -716,7 +732,7 @@ function UpdatePosition() {
         }
         Draw();
         gameOver();
-    } else if (score == 100) {
+    } else if (score >= 100) {
         Draw();
         gameOver();
         window.alert("Winner!!!");
