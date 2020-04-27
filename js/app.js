@@ -192,7 +192,9 @@ function moveMovingScore() {
     if ((board[moving_score.x][moving_score.y] >= 11 && board[moving_score.x][moving_score.y] <= 13) || board[moving_score.x][moving_score.y]===21 || board[moving_score.x][moving_score.y]===20 || board[moving_score.x][moving_score.y]===5) {
         moving_score.food = board[moving_score.x][moving_score.y];
     }
-    //     else{   moving_score.food = board[moving_score.x][moving_score.y];}
+    else{
+        moving_score.food = board[moving_score.x][moving_score.y];
+    }
     board[moving_score.x][moving_score.y] = 22;
 
 }
