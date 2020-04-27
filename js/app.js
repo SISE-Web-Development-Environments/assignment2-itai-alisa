@@ -589,9 +589,9 @@ function drawFood(center, i, j) {
 
 function Draw() {
     canvas.width = canvas.width; //clean board
-    lblScore.value = score;
-    lblTime.value = time_elapsed;
-    lblLives.value = lives;
+    lblScore.innerText = score;
+    lblTime.innerText = time_elapsed;
+    lblLives.innerText = lives;
     for (var i = 0; i < canvas_width; i++) {
         for (var j = 0; j < canvas_height; j++) {
             var center = new Object();
