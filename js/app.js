@@ -571,15 +571,15 @@ function UpdatePosition() {
             window.alert("Winner!!!");
             pac_color = "green";
         } else {
-            window.alert("You are better than " + score + " points!");
             pac_color = "red";
         }
+        game_over=true;
         Draw();
         gameOver();
     } else if (score >= 100) {
+        game_over=true;
         Draw();
         gameOver();
-        window.alert("Winner!!!");
         pac_color = "green";
     } else {
         Draw();
@@ -679,6 +679,53 @@ function Draw() {
         context.font = '20pt Montserrat';
         context.fillStyle = '#000000';
         context.fillText('New Game', rect.x + 25, rect.y + 35);
+
+        if(lives == 0){
+            context.beginPath();
+            context.rect(messageRect.x, messageRect.y, messageRect.width, messageRect.heigth);
+            context.fillStyle = '#FFFFFF';
+            context.fillStyle = 'rgba(225,9,0,0.5)';
+            context.fillRect(messageRect.x, messageRect.y, messageRect.width, messageRect.heigth);
+            context.fill();
+            context.lineWidth = 2;
+            context.strokeStyle = '#000000';
+            context.stroke();
+            context.closePath();
+            context.font = '20pt Montserrat';
+            context.fillStyle = '#000000';
+            context.fillText('Loser!', messageRect.x + 25, messageRect.y + 35);
+        }
+        else if (score >= 100) {
+            context.beginPath();
+            context.rect(winnerMessageRect.x, winnerMessageRect.y, winnerMessageRect.width, winnerMessageRect.heigth);
+            context.fillStyle = '#FFFFFF';
+            context.fillStyle = 'rgb(183,225,177)';
+            context.fillRect(winnerMessageRect.x, winnerMessageRect.y, winnerMessageRect.width, winnerMessageRect.heigth);
+            context.fill();
+            context.lineWidth = 2;
+            context.strokeStyle = '#000000';
+            context.stroke();
+            context.closePath();
+            context.font = '20pt Montserrat';
+            context.fillStyle = '#000000';
+            context.fillText("Winner!!!", winnerMessageRect.x + 25, winnerMessageRect.y + 35);
+        }
+        else{
+            context.beginPath();
+            context.rect(pointsMessageRect.x, pointsMessageRect.y, pointsMessageRect.width, pointsMessageRect.heigth);
+            context.fillStyle = '#FFFFFF';
+            context.fillStyle = 'rgb(245,129,133)';
+            context.fillRect(pointsMessageRect.x, pointsMessageRect.y, pointsMessageRect.width, pointsMessageRect.heigth);
+            context.fill();
+            context.lineWidth = 2;
+            context.strokeStyle = '#000000';
+            context.stroke();
+            context.closePath();
+            context.font = '20pt Montserrat';
+            context.fillStyle = '#000000';
+            context.fillText("You are better than " + score + " points!", pointsMessageRect.x + 25, pointsMessageRect.y + 35);
+        }
+
     }
 }
 
@@ -781,7 +828,6 @@ function ghostEncounter() {
         score -= 10;
         lives--;
         if (lives === 0) {
-            window.alert("Loser!");
             pac_color = "red";
             gameOver();
         } else {
@@ -886,6 +932,27 @@ var rect = {
     x: 300,
     y: 350,
     width: 200,
+    heigth: 50
+};
+
+var messageRect = {
+    x: 300,
+    y: 70,
+    width: 200,
+    heigth: 50
+};
+
+var winnerMessageRect = {
+    x: 300,
+    y: 70,
+    width: 200,
+    heigth: 50
+};
+
+var pointsMessageRect = {
+    x: 170  ,
+    y: 70,
+    width: 435,
     heigth: 50
 };
 

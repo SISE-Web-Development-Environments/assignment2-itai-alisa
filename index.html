@@ -22,8 +22,9 @@
 
 
     <script type="text/javascript">
-        var map = new Map([["p", "p"]]);
-        sessionStorage.myMap = JSON.stringify(Array.from(map.entries()));
+        var map = [];
+        map[0] = ["p","p"];
+        sessionStorage.myMap = JSON.stringify(map);
     </script>
 </head>
 
@@ -148,7 +149,7 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         </form>
     </div>
 
-    <div id="settings" style="display: block">
+    <div id="settings" style="display: none">
         <form class="needs-validation" id="settingForm">
             <div class="form-row">
                 <div class="form-group col-md-3">
@@ -236,7 +237,7 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         </div>
     </div>
 
-    <div id="ourGame" style="display: block; text-align: center; align-items: center">
+    <div id="ourGame" style="display: none; text-align: center; align-items: center">
         <div class="container" style="text-align: center">
             <div class="row">
                 <div class="col-sm-2" style="background-color:rgba(26,196,164,0.14) ;text-align: left;">

@@ -9,6 +9,9 @@ function switchDiv(newOne) {
             divToAdd.style.display = "block";
         }
         divToRemove.style.display = "none";
+        if(item == "ourGame"){
+            gameOver();
+        }
         localStorage.setItem("current", newOne);
     }
 }

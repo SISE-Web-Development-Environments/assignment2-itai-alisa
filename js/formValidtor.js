@@ -7,8 +7,13 @@ $(document).ready(function () {
             e.stopPropagation();
         } else {
             form[0].style.display;
+            var myMap = JSON.parse(sessionStorage.myMap);
+            let username = document.getElementById("usernameSingUp").value;
+            let password = document.getElementById("passwordSignUp").value;
+            myMap.push([username,password]);
+            sessionStorage.myMap = JSON.stringify(myMap);
+            switchDiv("welcome");
         }
-
         form.addClass('was-validated');
     });
 
@@ -25,7 +30,7 @@ $(document).ready(function () {
             var found = false;
 
             for (let i = 0; i < myMap.length; i++) {
-                if (username == myMap[i][0] && password == myMap[i][1]) {
+                if ((username == myMap[i][0] && password == myMap[i][1])) {
                     switchDiv('settings');
                     sessionStorage.setItem("currentUser",username);
                     found = true;
