@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
 
     $('#signUpButton').on('click', function (e) {
@@ -28,7 +26,8 @@ $(document).ready(function () {
 
             for (let i = 0; i < myMap.length; i++) {
                 if (username == myMap[i][0] && password == myMap[i][1]) {
-                    alert("found!!!!");
+                    switchDiv('settings');
+                    sessionStorage.setItem("currentUser",username);
                     found = true;
                 } else if (username == myMap[i][0] && password != myMap[i][1]) {
                     alert("incorrect password");

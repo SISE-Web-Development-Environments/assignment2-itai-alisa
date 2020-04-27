@@ -8,6 +8,7 @@
     <meta name="author" content="Alisa Faingold and Itai Dagan"/>
     <!-- Icon-->
 
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <!-- Font Awesome icons-->
     <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
     <!-- Bootstrap CSS-->
@@ -258,67 +259,74 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
 
 
     <div id="ourGame" style="display: block; text-align: center; align-items: center">
-        <div class="form-row">
-            <div id="score" class="form-group col-md-4">
-                <label for="lblScore">SCORE:</label>
-                <input id="lblScore" type="text"/>
-            </div>
-            <div id="time" class="form-group col-md-4">
-                <label for="lblTime">TIME:</label>
-                <input id="lblTime" type="text"/>
-            </div>
-            <div id="lives" class="form-group col-md-4">
-                <label for="lblLives">lives:</label>
-                <input id="lblLives" type="text"/>
-            </div>
-        </div>
-
         <div class="container" style="text-align: center">
             <div class="row">
                 <div class="col-sm-3" style="background-color:antiquewhite;text-align: left; padding-left: 20px">
+                    <br>
+                    <a style="font-size: 24px"><strong>Hi, </strong></a>
+                    <div class="settings_property" id="user_name_settings"></div>
                     <br>
                     <a style="font-size: 24px; text-align: center"><strong>Game Settings</strong></a>
                     <br>
                     <br>
                     <a style="font-size: 16px"><strong>Game Time (seconds): </strong></a>
-                    <div id="game_time_id"></div>
+                    <div class="settings_property" id="game_time_id"></div>
                     <br>
                     <a style="font-size: 16px"><strong>Number of Balls: </strong></a>
-                    <div id="balls_number_id"></div>
+                    <div class="settings_property" id="balls_number_id"></div>
                     <br>
                     <a style="font-size: 16px"><strong>Number of Monsters: </strong></a>
-                    <div id="num_of_monsters_id"></div>
+                    <div class="settings_property" id="num_of_monsters_id"></div>
+                    <br>
                     <br>
                     <a style="font-size: 24px; text-align: center"><strong>Game Arrows</strong></a>
                     <br>
                     <br>
                     <a style="font-size: 16px"><strong>Left Arrow: </strong></a>
-                    <div id="left_arrow_id"></div>
+                    <div class="settings_property" id="left_arrow_id"></div>
                     <br>
                     <a style="font-size: 16px"><strong>Right Arrow: </strong></a>
-                    <div id="right_arrow_id"></div>
+                    <div class="settings_property" id="right_arrow_id"></div>
                     <br>
                     <a style="font-size: 16px"><strong>Down Arrow: </strong></a>
-                    <div id="down_arrow_id"></div>
+                    <div class="settings_property" id="down_arrow_id"></div>
                     <br>
                     <a style="font-size: 16px"><strong>Up Arrow: </strong></a>
-                    <div id="up_arrow_id"></div>
+                    <div class="settings_property" id="up_arrow_id"></div>
+                    <br>
                     <br>
                     <a style="font-size: 24px; text-align: center"><strong>Balls Colors</strong></a>
                     <br>
                     <br>
                     <a style="font-size: 16px"><strong>Five points color: </strong></a>
-                    <div id="5_points_id"></div>
-                    <a style="font-size: 16px"><strong>Ten points color: </strong></a>
-                    <div id="10_points_id"></div>
-                    <a style="font-size: 16px"><strong>Fifteen points color: </strong></a>
-                    <div id="15_points_id"></div>
+                    <span id="five_points_id" class="settings_property fa fa-circle"></span>
+                    <a style="font-size: 16px; display: inline-block"><strong>Ten points color: </strong></a>
+                    <span id="ten_points_id" class="settings_property fa fa-circle"></span>
+                    <a style="font-size: 16px; display: inline-block"><strong>Fifteen points color: </strong></a>
+                    <span id="fifteen_points_id" class="settings_property fa fa-circle"></span>
                 </div>
                 <div class="col-sm-1" style="background-color:white;">
                 </div>
                 <div id="game" class="col-sm-4" style="text-align: center">
                     <canvas id="canvas" height="620" width="770" style="outline: black 3px solid;display: inline;"></canvas>
                 </div>
+            </div>
+        </div>
+        <div class="form-row" style="margin-left: 30px">
+            <div id="score" class="form-group col-md-3">
+                <label for="lblScore">SCORE</label>
+                <input id="lblScore" type="text" disabled>
+            </div>
+            <div id="time" class="form-group col-md-3">
+                <label for="lblTime">TIME</label>
+                <input id="lblTime" type="text" disabled>
+            </div>
+            <div id="lives" class="form-group col-md-3">
+                <label for="lblLives">LIVES</label>
+                <input id="lblLives" type="text" disabled>
+            </div>
+            <div id="scrolling" class="form-group col-md-3">
+                <button>disable scroll</button>
             </div>
         </div>
     </div>
