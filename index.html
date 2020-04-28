@@ -22,7 +22,7 @@
 
 
     <script type="text/javascript">
-        var map = [];
+    var map = [];
         map[0] = ["p","p"];
         sessionStorage.myMap = JSON.stringify(map);
     </script>
@@ -84,6 +84,7 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
                     <label for="usernameSingUp"><b>User Name</b></label>
                     <input type="text" class="form-control" id="usernameSingUp" name="usernameSingUp"
                            placeholder="User Name" required>
+                    <div class="invalid-feedback">Either You Haven't Entered a Value or That Username Already Exists</div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="passwordSignUp"><b>Password</b></label>
@@ -223,6 +224,14 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             <p>jQuery plugins:</p>
             <p>Templates:</p>
             <p>Challenges:</p>
+        </div>
+    </div>
+
+    <div id="sameKeys" class="modal" style="display: none">
+        <div class="modal-content">
+            <span id ="sameKeysC" class="close" onclick="closeModal(id)">&times;</span>
+            <br>
+            <p>There is no way you intended to put the same key into two functionality.. </p>
         </div>
     </div>
 
