@@ -60,7 +60,7 @@ const PACMAN = 2;
 const FIVE_POINT = 11;
 const TEN_POINT =12;
 const FIFTEEN_POINT =13;
-const HOUR_GLASS = 21;
+const HOURGLASS = 21;
 const SPECIAL_FOOD = 22;
 const MOVING_SCORE =23;
 const WALL =31;
@@ -346,7 +346,7 @@ function moveGhost(ghost) {
         ghost.food = null;
     }
     board[ghost.x][ghost.y] =GHOST;
-};
+}
 
 function restartGhosts() {
     let ghostPlace = [1, 2, 3, 4];
@@ -501,7 +501,7 @@ function Start() {
     moving_score = new MovingScore(cellForMovingScore[0], cellForMovingScore[1], null);
     board[cellForMovingScore[0]][cellForMovingScore[1]] = MOVING_SCORE;
     var emptyCellForHourGlass = findRandomEmptyCell(board);
-    board[emptyCellForHourGlass[0]][emptyCellForHourGlass[1]] = HOUR_GLASS;
+    board[emptyCellForHourGlass[0]][emptyCellForHourGlass[1]] = HOURGLASS;
     keysDown = {};
     addEventListener(
         "keydown",
@@ -669,7 +669,7 @@ function Draw() {
                 let img = document.getElementById("specialFood");
                 context.drawImage(img, center.x - 15, center.y - 15, 30, 30);
                 // drawSpecialFood(center);
-            } else if (board[i][j] == HOUR_GLASS) {
+            } else if (board[i][j] == HOURGLASS) {
                 let img = document.getElementById("hourglass");
                 context.drawImage(img, center.x - 15, center.y - 15, 30, 30);
             } else if (board[i][j] == MOVING_SCORE) {
@@ -816,7 +816,7 @@ function draw_ghost(ctx, center_x, center_y, scale) {
 
 // ============== Encounter Functions ==============
 function hourGlassEncounter() {
-    if (board[shape.i][shape.j] == HOUR_GLASS) {
+    if (board[shape.i][shape.j] == HOURGLASS) {
         game_time = game_time + 10;
     }
 }
