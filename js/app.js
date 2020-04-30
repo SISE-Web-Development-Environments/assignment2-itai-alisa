@@ -35,6 +35,7 @@ let fifteenColor = "#f542cb";
 let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
 let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
 
+let empty_corner=new Array();
 // specialFood
 let special_food = null;
 let special_food_eated;
@@ -267,6 +268,13 @@ function moveMovingScore() {
         }
 
         board[moving_score.x][moving_score.y] = MOVING_SCORE;
+    }else{
+        if(moving_score.food!=null){
+            board[moving_score.x][moving_score.y]=moving_score.food;
+        }
+        else{
+            board[moving_score.x][moving_score.y]=0;
+        }
     }
 
 }
@@ -277,7 +285,41 @@ function drawMovingScore(center) {
     context.fillText("+50", center.x, center.y + 10);
 }
 
+function setMovingScore() {
+    if(empty_corner.length===0){
+        let cellForMovingScore = findRandomEmptyCell(board);
+        moving_score = new MovingScore(cellForMovingScore[0],cellForMovingScore[1], null);
+        board[cellForMovingScore[0]][cellForMovingScore[1]] = MOVING_SCORE;
+    }
+    else {
+        let corner = empty_corner.pop();
+        if(corner===1) {
+            moving_score = new MovingScore(0,0, null);
+            board[0][0] = MOVING_SCORE;
+        } else if (corner===2) {
+            moving_score = new MovingScore(0,canvas_height - 1, null);
+            board[0][canvas_height - 1] = MOVING_SCORE;
+        } else if( corner===3) {
+            moving_score = new MovingScore(canvas_width-1,0, null);
+            board[canvas_width-1][0] = MOVING_SCORE;
+        }else {
+            moving_score = new MovingScore(canvas_width-1,canvas_height - 1, null);
+            board[canvas_width-1][canvas_height - 1] = MOVING_SCORE;
+        }
+    }
+}
 
+function resetMovingScore() {
+    if (!moving_score_eated) {
+        if (moving_score.food != null) {
+            board[moving_score.x][moving_score.y] = moving_score.food;
+        } else {
+            board[moving_score.x][moving_score.y] = 0;
+        }
+        moving_score = null;
+        setMovingScore();
+    }
+}
 // =============== Ghost =================
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -386,6 +428,7 @@ function restartGhosts() {
             ghosts.y = canvas_height - 1;
         }
     })
+    empty_corner=ghostPlace;
 }
 
 function setGhosts() {
@@ -411,6 +454,7 @@ function setGhosts() {
         ghostToDraw--;
         ghosts.push(ghost)
     }
+    empty_corner=ghostPlace;
 }
 
 // ============== specialFood ====================
@@ -511,9 +555,7 @@ function Start() {
         food_remain_3--;
     }
     setGhosts();
-    let cellForMovingScore = findRandomEmptyCell(board);
-    moving_score = new MovingScore(cellForMovingScore[0], cellForMovingScore[1], null);
-    board[cellForMovingScore[0]][cellForMovingScore[1]] = MOVING_SCORE;
+   setMovingScore();
     var emptyCellForHourGlass = findRandomEmptyCell(board);
     board[emptyCellForHourGlass[0]][emptyCellForHourGlass[1]] = HOURGLASS;
     keysDown = {};
@@ -867,6 +909,7 @@ function ghostEncounter() {
             ghost.play();
             mySound.play();
             restartGhosts();
+            resetMovingScore();
             var emptyCell = findRandomEmptyCell(board);
             shape.i = emptyCell[0];
             shape.j = emptyCell[1];
