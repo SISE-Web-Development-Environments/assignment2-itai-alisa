@@ -597,19 +597,14 @@ function UpdatePosition() {
     time_elapsed = (currentTime - start_time) / 1000;
     if (time_elapsed >= game_time) {
         if (score >= 100) {
-            window.alert("Winner!!!");
             pac_color = "green";
         } else {
             pac_color = "red";
         }
-        game_over = true;
+        game_over=true;
         Draw();
         gameOver();
-    } else if (score >= 100) {
-        game_over = true;
-        Draw();
-        gameOver();
-        pac_color = "green";
+
     } else {
         Draw();
     }
@@ -694,8 +689,7 @@ function Draw() {
         }
     }
     if (game_over) {
-        let img = document.getElementById("gameOver");
-        context.drawImage(img, 100, 50, 600, 450);
+
 
         context.beginPath();
         context.rect(rect.x, rect.y, rect.width, rect.heigth);
@@ -711,11 +705,13 @@ function Draw() {
         context.fillStyle = '#000000';
         context.fillText('New Game', rect.x + 25, rect.y + 35);
 
-        if (lives == 0) {
+        if(lives == 0){
+            let img = document.getElementById("gameOver");
+            context.drawImage(img, 100, 50, 600, 450);
             context.beginPath();
             context.rect(messageRect.x, messageRect.y, messageRect.width, messageRect.heigth);
             context.fillStyle = '#FFFFFF';
-            context.fillStyle = 'rgba(225,9,0,0.5)';
+            context.fillStyle = 'rgb(245,129,133)';
             context.fillRect(messageRect.x, messageRect.y, messageRect.width, messageRect.heigth);
             context.fill();
             context.lineWidth = 2;
@@ -724,8 +720,11 @@ function Draw() {
             context.closePath();
             context.font = '20pt Montserrat';
             context.fillStyle = '#000000';
-            context.fillText('Loser!', messageRect.x + 25, messageRect.y + 35);
-        } else if (score >= 100) {
+            context.fillText('Loser!', messageRect.x + 60, messageRect.y + 35);
+        }
+        else if (score >= 100) {
+            let img = document.getElementById("winner");
+            context.drawImage(img, 100, 50, 600, 450);
             context.beginPath();
             context.rect(winnerMessageRect.x, winnerMessageRect.y, winnerMessageRect.width, winnerMessageRect.heigth);
             context.fillStyle = '#FFFFFF';
@@ -738,8 +737,11 @@ function Draw() {
             context.closePath();
             context.font = '20pt Montserrat';
             context.fillStyle = '#000000';
-            context.fillText("Winner!!!", winnerMessageRect.x + 25, winnerMessageRect.y + 35);
-        } else {
+            context.fillText("Winner!!!", winnerMessageRect.x + 50, winnerMessageRect.y + 35);
+        }
+        else{
+            let img = document.getElementById("gameOver");
+            context.drawImage(img, 100, 50, 600, 450);
             context.beginPath();
             context.rect(pointsMessageRect.x, pointsMessageRect.y, pointsMessageRect.width, pointsMessageRect.heigth);
             context.fillStyle = '#FFFFFF';

@@ -16,10 +16,12 @@ $(document).ready(function () {
             e.stopPropagation();
         } else {
             form[0].style.display;
+            var myMap = JSON.parse(sessionStorage.myMap);
+            let username = document.getElementById("usernameSingUp").value;
             let password = document.getElementById("passwordSignUp").value;
             myMap.push([username,password]);
             sessionStorage.myMap = JSON.stringify(myMap);
-            switchDiv("welcome");
+            switchDiv("login");
         }
         form.addClass('was-validated');
     });
