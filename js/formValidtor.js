@@ -2,7 +2,16 @@ $(document).ready(function () {
 
     $('#signUpButton').on('click', function (e) {
         let form = $('#signUpForm');
-        if (!form[0].checkValidity()) {
+        let good_username = true;
+        var myMap = JSON.parse(sessionStorage.myMap);
+        let username = document.getElementById("usernameSingUp").value;
+        for (let i=0; i<myMap.length; i++ ){
+            if(username === myMap[i][0]){
+                good_username=false;
+                document.getElementById("usernameSingUp").value="";
+            }
+        }
+        if (!form[0].checkValidity() || !good_username) {
             e.preventDefault();
             e.stopPropagation();
         } else {
