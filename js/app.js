@@ -122,7 +122,7 @@ function validateNumBalls(element) {
 function validateGameTime(element) {
     if (element.value < min_time) {
         element.value = parseInt(min_time);
-        game_time=min_time;
+        game_time=parseInt(min_time);
     } else {
         game_time = parseInt(element.value);
     }
