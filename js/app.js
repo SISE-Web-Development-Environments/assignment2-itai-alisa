@@ -268,6 +268,13 @@ function moveMovingScore() {
         }
 
         board[moving_score.x][moving_score.y] = MOVING_SCORE;
+    }else{
+        if(moving_score.food!=null){
+            board[moving_score.x][moving_score.y]=moving_score.food;
+        }
+        else{
+            board[moving_score.x][moving_score.y]=0;
+        }
     }
 
 }
@@ -279,7 +286,6 @@ function drawMovingScore(center) {
 }
 
 function setMovingScore() {
-    let set = false;
     if(empty_corner.length===0){
         let cellForMovingScore = findRandomEmptyCell(board);
         moving_score = new MovingScore(cellForMovingScore[0],cellForMovingScore[1], null);
