@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <title>Itai and Alisa</title>
     <meta name="author" content="Alisa Faingold and Itai Dagan"/>
-    <!-- Icon-->
 
+    <!-- Icon-->
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <!-- Font Awesome icons-->
     <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
@@ -46,7 +46,7 @@
 <div class="DesignMenu" id="menu">
 
     <a href="#" id="aboutButton" class="switch"><span class="fa fa-suitcase mr-3"></span>About</a>
-    <a href="#" onclick="switchDiv('settings')"><span class="switch fa fa-cogs mr-3"></span>Settings</a>
+    <a href="#" id="settingsButton"><span class="switch fa fa-cogs mr-3"></span>Settings</a>
     <a href="#" onclick="switchDiv('welcome')"><span class="switch fa fa-home mr-3"></span>Welcome</a>
 
     <a id="logo" href="index.html" style="    display: flex;
@@ -217,7 +217,7 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
 
     <div id="about" class="modal" style="display: none">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span id="aboutClose" class="close">&times;</span>
             <br>
             <p>Our names are: Itai and Alisa!!! welcome to our Pac-Man Game</p>
             <p>jQuery plugins:</p>
@@ -225,6 +225,17 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             <p>Challenges:</p>
         </div>
     </div>
+
+    <div id="signInFirst" class="modal" style="display: none">
+        <div class="modal-content">
+            <span id="settingsClose" class="close">&times;</span>
+            <br>
+            <br>
+            <p><i class="fa fa-exclamation-triangle" style="font-size: 20px; margin-right: 20px; color: darkred"></i>Please sign in before entering to the
+                settings</p>
+        </div>
+    </div>
+
 
     <div id="newGame" class="modal" style="display: none">
         <div class="modal-content">
@@ -304,7 +315,6 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             </div>
         </div>
     </div>
-
     <img id="50"
          src="resources/50.png" alt="The Scream" style="display: none">
     <img id="specialFood"
@@ -316,7 +326,12 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
     <img id="gameOver"
          src="resources/gameOver.webp" alt="The Scream" style="display: none">
 </div>
-
+<footer class="copyright" style="text-align: center">
+    <a class="text-uppercase mb-4">Alisa Faingold <a href="https://www.facebook.com/afaingold"> <i class="fab fa-fw fa-facebook-f"> </i></a></a>
+    <a class="text-uppercase mb-4" style="margin-left: 20px">Itai Dagan <a
+            href="https://www.facebook.com/itaiDag/"><i class="fab fa-fw fa-facebook-f">     </i></a></a>
+    <small style="margin-left: 600px">Copyright © Web environments development course 2020</small>
+</footer>
 <script>
     // Get the modal
     var modal = document.getElementById("about");
@@ -325,7 +340,7 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
     var btn = document.getElementById("aboutButton");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementById("aboutClose");
 
     $(document).keydown(function (e) {
         var code = e.keyCode || e.which;
@@ -342,12 +357,45 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         modal.style.display = "none";
     }
 
+    // Get the modal
+    var modalS = document.getElementById("signInFirst");
+
+    // Get the button that opens the modal
+    var btnS = document.getElementById("settingsButton");
+
+    // Get the <span> element that closes the modal
+    var spanS = document.getElementById("settingsClose");
+
+    $(document).keydown(function (e) {
+        var code = e.keyCode || e.which;
+        if (code == 27) modalS.style.display = "none";
+    });
+
+    // When the user clicks the button, open the modal
+    btnS.onclick = function () {
+        if (sessionStorage.getItem("currentUser"))
+            switchDiv('settings');
+        else
+            modalS.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    spanS.onclick = function () {
+        modalS.style.display = "none";
+    }
+
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
+        else if (event.target == modalS) {
+            modalS.style.display = "none";
+        }
     }
+</script>
+<script>
+
 </script>
 </body>
 

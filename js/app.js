@@ -701,7 +701,7 @@ function Draw() {
             context.beginPath();
             context.rect(messageRect.x, messageRect.y, messageRect.width, messageRect.heigth);
             context.fillStyle = '#FFFFFF';
-            context.fillStyle = 'rgba(225,9,0,0.5)';
+            context.fillStyle = 'rgb(245,129,133)';
             context.fillRect(messageRect.x, messageRect.y, messageRect.width, messageRect.heigth);
             context.fill();
             context.lineWidth = 2;
@@ -710,7 +710,7 @@ function Draw() {
             context.closePath();
             context.font = '20pt Montserrat';
             context.fillStyle = '#000000';
-            context.fillText('Loser!', messageRect.x + 25, messageRect.y + 35);
+            context.fillText('Loser!', messageRect.x + 60, messageRect.y + 35);
         }
         else if (score >= 100) {
             context.beginPath();
@@ -725,7 +725,7 @@ function Draw() {
             context.closePath();
             context.font = '20pt Montserrat';
             context.fillStyle = '#000000';
-            context.fillText("Winner!!!", winnerMessageRect.x + 25, winnerMessageRect.y + 35);
+            context.fillText("Winner!!!", winnerMessageRect.x + 50, winnerMessageRect.y + 35);
         }
         else{
             context.beginPath();

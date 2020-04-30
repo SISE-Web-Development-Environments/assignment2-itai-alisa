@@ -12,7 +12,7 @@ $(document).ready(function () {
             let password = document.getElementById("passwordSignUp").value;
             myMap.push([username,password]);
             sessionStorage.myMap = JSON.stringify(myMap);
-            switchDiv("welcome");
+            switchDiv("login");
         }
         form.addClass('was-validated');
     });
