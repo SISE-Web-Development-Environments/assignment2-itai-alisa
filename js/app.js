@@ -262,7 +262,7 @@ function moveMovingScore() {
 
 
         let boardElementInPosition = board[moving_score.x][moving_score.y];
-        if (boardElementInPosition >= 11 && boardElementInPosition <= 22) {
+        if (boardElementInPosition >= 11 && boardElementInPosition <= 22 || boardElementInPosition===GHOST) {
             moving_score.food = boardElementInPosition;
         } else {
             moving_score.food = null;
