@@ -29,8 +29,8 @@ let min_time = 60;
 let max_time = 300;
 
 let fiveColor = "#eff542";
-let tenColor = "#42a4f5";
-let fifteenColor = "#f542cb";
+let fifteenColor = "#42a4f5";
+let twentyFiveColor = "#f542cb";
 
 let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
 let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
@@ -61,8 +61,8 @@ const RIGHT_DIRECTION = 4;
 const CLEAR = 0;
 const PACMAN = 2;
 const FIVE_POINT = 11;
-const TEN_POINT = 12;
-const FIFTEEN_POINT = 13;
+const FIFTEEN_POINT = 12;
+const TWENTYFIVE_POINT = 13;
 const HOURGLASS = 21;
 const SPECIAL_FOOD = 22;
 const MOVING_SCORE = 23;
@@ -180,15 +180,15 @@ function fillSettingBoard() {
     down_arrow_id.innerText = KeyBoardValues.down;
     up_arrow_id.innerText = KeyBoardValues.up;
     five_points_id.style.color = fiveColor;
-    ten_points_id.style.color = tenColor;
     fifteen_points_id.style.color = fifteenColor;
+    twenty_five_points_id.style.color = twentyFiveColor;
 }
 
 function goToGame() {
     ghosts_remain = parseInt(document.getElementById("monstersForm").value);
     fiveColor = document.getElementById("fiveColorForm").value;
-    tenColor = document.getElementById("tenColorForm").value;
     fifteenColor = document.getElementById("fifteenColorForm").value;
+    twentyFiveColor = document.getElementById("twentyFiveColorForm").value;
     let keyModal = document.getElementById("sameKeys");
     context = canvas.getContext("2d");
     if (KeyBoardValues.up === KeyBoardValues.right ||
@@ -524,10 +524,10 @@ function Start() {
                     board[i][j] = FIVE_POINT;
                 } else if (randomNum <= (1.0 * food_remain_2) / cnt) {
                     food_remain_2--;
-                    board[i][j] = TEN_POINT;
+                    board[i][j] = FIFTEEN_POINT;
                 } else if (randomNum <= (1.0 * food_remain_3) / cnt) {
                     food_remain_3--;
-                    board[i][j] = FIFTEEN_POINT;
+                    board[i][j] = TWENTYFIVE_POINT;
                 } else if (pacman_remain > 0 && randomNum < (1.0 * (pacman_remain + food_remain_1 + food_remain_2 + food_remain_3)) / cnt) {
                     shape.i = i;
                     shape.j = j;
@@ -547,12 +547,12 @@ function Start() {
     }
     while (food_remain_2 > 0) {
         var emptyCell = findRandomEmptyCell(board);
-        board[emptyCell[0]][emptyCell[1]] = TEN_POINT;
+        board[emptyCell[0]][emptyCell[1]] = FIFTEEN_POINT;
         food_remain_2--;
     }
     while (food_remain_3 > 0) {
         var emptyCell = findRandomEmptyCell(board);
-        board[emptyCell[0]][emptyCell[1]] = FIFTEEN_POINT;
+        board[emptyCell[0]][emptyCell[1]] = TWENTYFIVE_POINT;
         food_remain_3--;
     }
     setGhosts();
@@ -706,7 +706,7 @@ function Draw() {
                     context.fillStyle = "black"; //color
                     context.fill();
                 }
-            } else if (board[i][j] >= FIVE_POINT && board[i][j] <= FIFTEEN_POINT) {
+            } else if (board[i][j] >= FIVE_POINT && board[i][j] <= TWENTYFIVE_POINT) {
                 drawFood(center, i, j);
             } else if (board[i][j] == WALL) {
                 context.beginPath();
@@ -814,20 +814,20 @@ function drawFood(center, i, j) {
         context.lineWidth = 2;
         context.strokeStyle = '#003300';
         context.stroke();
-    } else if (foodType == TEN_POINT) {
-        context.beginPath();
-        context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
-        var randomNum = Math.random();
-        context.fillStyle = tenColor; //color
-        context.fill();
-        context.lineWidth = 2;
-        context.strokeStyle = '#003300';
-        context.stroke();
     } else if (foodType == FIFTEEN_POINT) {
         context.beginPath();
         context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
         var randomNum = Math.random();
         context.fillStyle = fifteenColor; //color
+        context.fill();
+        context.lineWidth = 2;
+        context.strokeStyle = '#003300';
+        context.stroke();
+    } else if (foodType == TWENTYFIVE_POINT) {
+        context.beginPath();
+        context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
+        var randomNum = Math.random();
+        context.fillStyle = twentyFiveColor; //color
         context.fill();
         context.lineWidth = 2;
         context.strokeStyle = '#003300';
@@ -882,10 +882,10 @@ function foodScoreCalculator(i, j) {
     var foodType = board[shape.i][shape.j];
     if (foodType == FIVE_POINT) {
         score += 5;
-    } else if (foodType == TEN_POINT) {
-        score += 10;
     } else if (foodType == FIFTEEN_POINT) {
         score += 15;
+    } else if (foodType == TWENTYFIVE_POINT) {
+        score += 25;
     } else if (foodType == SPECIAL_FOOD) {
         special_food_eated = true;
         let num = Math.random();

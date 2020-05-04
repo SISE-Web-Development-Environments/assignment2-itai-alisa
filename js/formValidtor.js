@@ -34,7 +34,6 @@ $(document).ready(function () {
         } else {
             var username = document.getElementById("loginUserName").value;
             var password = document.getElementById("loginPassword").value;
-
             var myMap = JSON.parse(sessionStorage.myMap);
             var found = false;
 
