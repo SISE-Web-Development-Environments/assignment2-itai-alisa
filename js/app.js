@@ -100,9 +100,9 @@ function randomSettings() {
     // === Colors
     document.getElementById("fiveColorForm").value =
         "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
-    document.getElementById("tenColorForm").value =
-        "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
     document.getElementById("fifteenColorForm").value =
+        "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
+    document.getElementById("twentyFiveColorForm").value =
         "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
 }
 
