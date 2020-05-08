@@ -13,6 +13,7 @@ var walls_board;
 var lives = 5;
 
 let interval_counter = 0;
+
 // Settings
 let good_settings = true;
 
@@ -36,10 +37,10 @@ let KeyboardHelper = {left: 37, up: 38, right: 39, down: 40};
 let KeyBoardValues = {left: 'ArrowLeft', up: 'ArrowUp', right: 'ArrowRight', down: 'ArrowDown'};
 
 let empty_corner=new Array();
+
 // specialFood
 let special_food = null;
 let special_food_eated;
-
 
 //Ghost
 let ghosts = new Array();
@@ -321,6 +322,7 @@ function resetMovingScore() {
         setMovingScore();
     }
 }
+
 // =============== Ghost =================
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -835,43 +837,8 @@ function drawFood(center, i, j) {
     }
 }
 
-function draw_ghost(ctx, center_x, center_y, scale) {
-    this.x = center_x - 40;
-    this.y = center_y + 30;
-
-    ctx.beginPath();
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = "1";
-    ctx.fillStyle = "rgba(89,180,79,0.96)";
-    ctx.beginPath(); //upper part
-    ctx.moveTo(this.x, this.y);
-    ctx.quadraticCurveTo(this.x + 19, this.y - 90, this.x + 40, this.y);
-    ctx.moveTo(this.x, this.y);// now the bottom part
-    ctx.quadraticCurveTo(this.x + 3, this.y + 4, this.x + 10, this.y);
-    ctx.moveTo(this.x + 10, this.y);
-    ctx.quadraticCurveTo(this.x + 12, this.y - 2, this.x + 20, this.y);
-    ctx.quadraticCurveTo(this.x + 22, this.y + 4, this.x + 30, this.y);
-    ctx.moveTo(this.x + 20, this.y);
-    ctx.moveTo(this.x + 30, this.y);
-    ctx.quadraticCurveTo(this.x + 35, this.y - 2, this.x + 40, this.y);
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
-    ctx.fill();
-    ctx.closePath();
-    ctx.fillStyle = "#000000"; // eye circles
-    ctx.beginPath();
-    ctx.arc(this.x + 14, this.y - 29, 2, 0, Math.PI * 8, true);
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(this.x + 25, this.y - 29, 2, 0, Math.PI * 8, true);
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
-    ctx.fill();
-}
-
 // ============== Encounter Functions ==============
+
 function hourGlassEncounter() {
     if (board[shape.i][shape.j] == HOURGLASS) {
         game_time = game_time + 10;
@@ -926,6 +893,7 @@ function movingScoreEncounter() {
 }
 
 // ============== Help Functions ==============
+
 function initializeWalls() {
     walls_board = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
