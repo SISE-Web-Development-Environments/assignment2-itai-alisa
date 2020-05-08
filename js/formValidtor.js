@@ -5,12 +5,10 @@ $(document).ready(function () {
         let good_username = true;
         let myMap = JSON.parse(sessionStorage.myMap);
         let username = $('#usernameSingUp').val();
-        // let username = document.getElementById("usernameSingUp").value;
         for (let i=0; i<myMap.length; i++ ){
             if(username === myMap[i][0]){
                 good_username=false;
                 $('#usernameSingUp').val("");
-                // document.getElementById("usernameSingUp").value="";
             }
         }
         if (!form[0].checkValidity() || !good_username) {
