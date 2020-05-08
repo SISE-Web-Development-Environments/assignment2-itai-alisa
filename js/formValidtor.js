@@ -32,8 +32,8 @@ $(document).ready(function () {
             e.preventDefault();
             e.stopPropagation();
         } else {
-            let username = $('#usernameSingUp').val();
-            let password = $('#passwordSignUp').val();
+            let username = $('#loginUserName').val();
+            let password = $('#loginPassword').val();
             let myMap = JSON.parse(sessionStorage.myMap);
             let found = false;
             for (let i = 0; i < myMap.length; i++) {

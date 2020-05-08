@@ -50,8 +50,10 @@ let moving_score;
 let moving_score_eated;
 
 var game_over = false;
-var gameInProgress = false;
 var mySound;
+
+//hour glass
+let hour_glass_eaten = false;
 
 // Const
 const UP_DIRECTION = 1;
@@ -69,7 +71,9 @@ const SPECIAL_FOOD = 22;
 const MOVING_SCORE = 23;
 const WALL = 31;
 const GHOST = 32;
-
+const WINNER = 1;
+const LOSER = 2;
+const EXIT_GAME = 3;
 
 // =============== Settings ===================
 function randomSettings() {
@@ -205,13 +209,7 @@ function goToGame() {
         good_settings = true;
     }
     if (good_settings) {
-        if (gameInProgress) {
-            gameOver();
-            Start();
-        } else {
-            gameInProgress = true;
-            Start();
-        }
+        Start();
         fillSettingBoard();
         switchDiv('ourGame');
     }
@@ -281,12 +279,6 @@ function moveMovingScore() {
 
 }
 
-function drawMovingScore(center) {
-    context.fillStyle = "#bac708";
-    context.font = "20px Arial";
-    context.fillText("+50", center.x, center.y + 10);
-}
-
 function setMovingScore() {
     if(empty_corner.length===0){
         let cellForMovingScore = findRandomEmptyCell(board);
@@ -352,7 +344,7 @@ function moveGhost(ghost) {
     }
 
     //Right
-    if (ghost.x < (canvas_width - 1) && board[ghost.x + 1][ghost.y] < 30) {
+    if (ghost.x < (canvas_width - 1) && board[ghost.x + 1][ghost.y] < 23) {
         currDistance = calculateDistance(ghost.x + 1, ghost.y, shape.i, shape.j);
         if (currDistance < maxDistance) {
             dir = RIGHT_DIRECTION;
@@ -361,7 +353,7 @@ function moveGhost(ghost) {
     }
 
     //Left
-    if (ghost.x > 0 && board[ghost.x - 1][ghost.y] < 30) {
+    if (ghost.x > 0 && board[ghost.x - 1][ghost.y] < 23) {
         currDistance = calculateDistance(ghost.x - 1, ghost.y, shape.i, shape.j);
         if (currDistance < maxDistance) {
             dir = LEFT_DIRECTION;
@@ -369,7 +361,7 @@ function moveGhost(ghost) {
         }
     }
     //Up
-    if (ghost.y > 0 && board[ghost.x][ghost.y - 1] < 30) {
+    if (ghost.y > 0 && board[ghost.x][ghost.y - 1] < 23) {
         currDistance = calculateDistance(ghost.x, ghost.y - 1, shape.i, shape.j);
         if (currDistance < maxDistance) {
             dir = UP_DIRECTION;
@@ -378,7 +370,7 @@ function moveGhost(ghost) {
 
     }
     //Down
-    if (ghost.y < (canvas_height - 1) && board[ghost.x][ghost.y + 1] < 30) {
+    if (ghost.y < (canvas_height - 1) && board[ghost.x][ghost.y + 1] < 23) {
         currDistance = calculateDistance(ghost.x, ghost.y + 1, shape.i, shape.j);
         if (currDistance < maxDistance) {
             dir = DOWN_DIRECTION;
@@ -484,28 +476,18 @@ function removeSpecialFood() {
 
 }
 
-function drawSpecialFood(center) {
-    context.beginPath();
-    context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
-    var randomNum = Math.random();
-    context.fillStyle = '#ffffff'; //color
-    context.fill();
-    context.lineWidth = 4;
-    context.strokeStyle = '#fc03f4';
-    context.stroke();
-
-}
-
 /// ============== Game =======================
 function Start() {
     board = new Array();
     score = 0;
     lives = 5;
     direction = 4;
-    pac_color = "yellow";
+    pac_color = "#FDD522";
+    hour_glass_eaten = false;
     game_over = false;
     moving_score_eated = false;
     mySound = new sound("resources/original.mp3");
+    mySound.loop();
     mySound.play();
     initializeWalls();
     var cnt = canvas_width * canvas_height;
@@ -579,14 +561,23 @@ function Start() {
     interval = setInterval(UpdatePosition, 100);
 }
 
-function gameOver() {
+function gameOver(status) {
     mySound.stop();
-    let gameOver = new sound("resources/gameOver.mp3");
-    gameOver.play();
+    if (status == WINNER){
+        let gameOver = new sound("resources/winning.mp3");
+        gameOver.play();
+    } else if (status == LOSER){
+        let gameOver = new sound("resources/gameOver.mp3");
+        gameOver.play();
+    }
     game_over = true;
     window.clearInterval(interval);
     interval_counter = 0;
-    ghosts.length = 0
+    ghosts.length = 0;
+    if(hour_glass_eaten){
+        hour_glass_eaten = false;
+        game_time -=10;
+    }
 }
 
 function UpdatePosition() {
@@ -643,13 +634,15 @@ function UpdatePosition() {
     if (time_elapsed >= game_time) {
         if (score >= 100) {
             pac_color = "green";
+            game_over=true;
+            Draw();
+            gameOver(WINNER);
         } else {
             pac_color = "red";
+            game_over=true;
+            Draw();
+            gameOver(LOSER);
         }
-        game_over=true;
-        Draw();
-        gameOver();
-
     } else {
         Draw();
     }
@@ -734,8 +727,6 @@ function Draw() {
         }
     }
     if (game_over) {
-
-
         context.beginPath();
         context.rect(rect.x, rect.y, rect.width, rect.heigth);
         context.fillStyle = '#FFFFFF';
@@ -801,7 +792,6 @@ function Draw() {
             context.fillStyle = '#000000';
             context.fillText("You are better than " + score + " points!", pointsMessageRect.x + 25, pointsMessageRect.y + 35);
         }
-
     }
 }
 
@@ -842,6 +832,7 @@ function drawFood(center, i, j) {
 function hourGlassEncounter() {
     if (board[shape.i][shape.j] == HOURGLASS) {
         game_time = game_time + 10;
+        hour_glass_eaten = true;
     }
 }
 
@@ -870,7 +861,7 @@ function ghostEncounter() {
         lives--;
         if (lives === 0) {
             pac_color = "red";
-            gameOver();
+            gameOver(LOSER);
         } else {
             mySound.stop();
             let ghost = new sound("resources/ghost.mp3");
@@ -961,6 +952,9 @@ function sound(src) {
     }
     this.stop = function () {
         this.sound.pause();
+    }
+    this.loop = function () {
+        this.sound.setAttribute("loop", "true");
     }
 }
 

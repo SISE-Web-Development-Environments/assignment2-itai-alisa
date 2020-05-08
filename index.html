@@ -30,29 +30,20 @@
 
 <body>
 
-<header id="header" class="fixed-top" style="display: none">
-    <div class="container d-flex">
-        <div class="logo mr-auto">
-            <!-- image logo -->
-            <a href="index.html"><img src="" alt="" class="img-fluid"></a>
-        </div>
-    </div>
-    <menu id="menu2">
-        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top">
-        </nav>
-    </menu>
-</header>
-
-<div class="DesignMenu" id="menu">
-
-    <a href="#" id="aboutButton" class="switch"><span class="fa fa-suitcase mr-3"></span>About</a>
-    <a href="#" id="settingsButton"><span class="switch fa fa-cogs mr-3"></span>Settings</a>
-    <a href="#" onclick="switchDiv('welcome')"><span class="switch fa fa-home mr-3"></span>Welcome</a>
-
-    <a id="logo" href="index.html" style="    display: flex;
+<header id="header" class="header">
+            <a id="logo" href="index.html" style="    display: inline-flex; float: left;
 max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" style="max-height: 50px; max-width: 50px;"
                         alt="logo"/></a>
-</div>
+        <p style="float: left; margin-left: 10px; margin-top: 19px; font-size: 16px; color: #FDD522">PAC-MAN</p>
+        <a style="float: left; margin-left: 20px; margin-top: 21px; font-size: 12px">Alisa faingold 205576937 & Itai Dagan 206226524</a>
+    <div class="DesignMenu" id="menu">
+        <a href="#" id="aboutButton" class="switch"><span class="fa fa-suitcase mr-3"></span>About</a>
+        <a href="#" id="settingsButton"><span class="switch fa fa-cogs mr-3"></span>Settings</a>
+        <a href="#" onclick="switchDiv('welcome')"><span class="switch fa fa-home mr-3"></span>Welcome</a>
+    </div>
+</header>
+
+
 
 
 <div id="Content" class="container">
@@ -216,46 +207,6 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
         </form>
     </div>
 
-    <div id="about" class="modal" style="display: none">
-        <div class="modal-content">
-            <span id="aboutClose" class="close">&times;</span>
-            <br>
-            <p>Our names are: Itai and Alisa!!! welcome to our Pac-Man Game</p>
-            <p>jQuery plugins:</p>
-            <p>Templates:</p>
-            <p>Challenges:</p>
-        </div>
-    </div>
-
-    <div id="signInFirst" class="modal" style="display: none">
-        <div class="modal-content">
-            <span id="settingsClose" class="close">&times;</span>
-            <br>
-            <br>
-            <p><i class="fa fa-exclamation-triangle" style="font-size: 20px; margin-right: 20px; color: darkred"></i>Please sign in before entering to the
-                settings</p>
-        </div>
-    </div>
-
-    <div id="sameKeys" class="modal" style="display: none">
-        <div class="modal-content">
-            <span id ="sameKeysC" class="close" onclick="closeModal(id)">&times;</span>
-            <br>
-            <p>There is no way you intended to put the same key into two functionality.. </p>
-        </div>
-    </div>
-
-    <div id="newGame" class="modal" style="display: none">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <br>
-            <p>Our names are: Itai and Alisa!!! welcome to our Pac-Man Game</p>
-            <p>jQuery plugins:</p>
-            <p>Templates:</p>
-            <p>Challenges:</p>
-        </div>
-    </div>
-
     <div id="ourGame" style="display: none; text-align: center; align-items: center">
         <div class="container" style="text-align: center">
             <div class="row">
@@ -296,12 +247,26 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
                     <a style="font-size: 20px; text-align: center"><strong>Food Colors</strong></a>
                     <br>
                     <br>
-                    <a style="font-size: 12px"><strong>Five points color: </strong></a>
+                    <a style="font-size: 12px"><strong>5 points color: </strong></a>
                     <span id="five_points_id" class="settings_property fa fa-circle"></span>
-                    <a style="font-size: 12px; display: inline-block"><strong>Fifteen points color: </strong></a>
+                    <a style="font-size: 12px; display: inline-block"><strong>15 points color: </strong></a>
                     <span id="fifteen_points_id" class="settings_property fa fa-circle"></span>
-                    <a style="font-size: 12px; display: inline-block"><strong>Twenty Five points color: </strong></a>
+                    <a style="font-size: 12px; display: inline-block"><strong>25 points color: </strong></a>
                     <span id="twenty_five_points_id" class="settings_property fa fa-circle"></span>
+                    <br>
+                    <br>
+                    <img
+                         src="resources/50.png" alt="The Scream" style="height: 26px; width: 26px">
+                    <a style="font-size: 12px"><strong>+50 point</strong></a>
+                    <br>
+                    <img
+                         src="resources/specialFood.png" alt="The Scream" style="height: 20px; width: 20px">
+                    <a style="font-size: 12px"><strong>+50 or -25</strong></a>
+                    <br>
+                    <img
+                         src="resources/hourglass.png" alt="The Scream" style="height: 20px; width: 20px">
+                    <a style="font-size: 12px"><strong>10 seconds</strong></a>
+
                 </div>
                 <div id="game" class="col-sm-9" style="text-align: center">
                     <canvas id="canvas" height="620" width="770" style="outline: black 3px solid;display: inline;"></canvas>
@@ -323,90 +288,66 @@ max-height: 50px;"><img src="resources/pacman-clipart-pdf-3-transparent.png" sty
             </div>
         </div>
     </div>
-    <img id="50"
-         src="resources/50.png" alt="The Scream" style="display: none">
-    <img id="specialFood"
-         src="resources/specialFood.png" alt="The Scream" style="display: none">
-    <img id="ghost"
-         src="resources/ghost.png" alt="The Scream" style="display: none">
-    <img id="hourglass"
-         src="resources/hourglass.png" alt="The Scream" style="display: none">
-    <img id="gameOver"
-         src="resources/gameOver.webp" alt="The Scream" style="display: none">
-    <img id="winner"
-         src="resources/winner.png" alt="The Scream" style="display: none">
+
 </div>
+
 <footer class="copyright" style="text-align: center">
     <a class="text-uppercase mb-4">Alisa Faingold <a href="https://www.facebook.com/afaingold"> <i class="fab fa-fw fa-facebook-f"> </i></a></a>
     <a class="text-uppercase mb-4" style="margin-left: 20px">Itai Dagan <a
             href="https://www.facebook.com/itaiDag/"><i class="fab fa-fw fa-facebook-f">     </i></a></a>
     <small style="margin-left: 600px">Copyright © Web environments development course 2020</small>
 </footer>
-<script>
-    // Get the modal
-    var modal = document.getElementById("about");
 
-    // Get the button that opens the modal
-    var btn = document.getElementById("aboutButton");
+<!--Modals-->
+<div id="about" class="modal" style="display: none">
+    <div class="modal-content">
+        <span id="aboutClose" class="close">&times;</span>
+        <br>
+        <p>Our names are: Itai and Alisa!!! welcome to our Pac-Man Game</p>
+        <p style="font-weight: bold">jQuery</p>
+        <p>We used jQuery in order to validate our form</p>
+        <p style="font-weight: bold">Templates</p>
+        <p>we used bootstrap FreeLancer template for the design of our website</p>
+        <p style="font-weight: bold">Challenges</p>
+        <p>We enjoyed to build our first web game</p>
+        <p>The main challenge for us was to to think about the ghosts algorithm :)</p>
+    </div>
+</div>
 
-    // Get the <span> element that closes the modal
-    var span = document.getElementById("aboutClose");
+<div id="signInFirst" class="modal" style="display: none">
+    <div class="modal-content">
+        <span id="settingsClose" class="close">&times;</span>
+        <br>
+        <br>
+        <p><i class="fa fa-exclamation-triangle" style="font-size: 20px; margin-right: 20px; color: darkred"></i>Please sign in before entering to the
+            settings</p>
+    </div>
+</div>
 
-    $(document).keydown(function (e) {
-        var code = e.keyCode || e.which;
-        if (code == 27) modal.style.display = "none";
-    });
+<div id="sameKeys" class="modal" style="display: none">
+    <div class="modal-content">
+        <span id ="sameKeysC" class="close" onclick="closeModal(id)">&times;</span>
+        <br>
+        <p>There is no way you intended to put the same key into two functionality.. </p>
+    </div>
+</div>
 
-    // When the user clicks the button, open the modal
-    btn.onclick = function () {
-        modal.style.display = "block";
-    }
+<!--Images for display-->
+<img id="50"
+     src="resources/50.png" alt="The Scream" style="display: none">
+<img id="specialFood"
+     src="resources/specialFood.png" alt="The Scream" style="display: none">
+<img id="hourglass"
+     src="resources/hourglass.png" alt="The Scream" style="display: none">
+<img id="ghost"
+     src="resources/ghost.png" alt="The Scream" style="display: none">
+<img id="gameOver"
+     src="resources/gameOver.webp" alt="The Scream" style="display: none">
+<img id="winner"
+     src="resources/winner.png" alt="The Scream" style="display: none">
 
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
 
-    // Get the modal
-    var modalS = document.getElementById("signInFirst");
-
-    // Get the button that opens the modal
-    var btnS = document.getElementById("settingsButton");
-
-    // Get the <span> element that closes the modal
-    var spanS = document.getElementById("settingsClose");
-
-    $(document).keydown(function (e) {
-        var code = e.keyCode || e.which;
-        if (code == 27) modalS.style.display = "none";
-    });
-
-    // When the user clicks the button, open the modal
-    btnS.onclick = function () {
-        if (sessionStorage.getItem("currentUser"))
-            switchDiv('settings');
-        else
-            modalS.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    spanS.onclick = function () {
-        modalS.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-        else if (event.target == modalS) {
-            modalS.style.display = "none";
-        }
-    }
-</script>
-<script>
-
-</script>
+<script src="js/modalHandler.js" type="text/javascript"></script>
 </body>
 
 

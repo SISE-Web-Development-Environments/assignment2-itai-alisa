@@ -10,7 +10,7 @@ function switchDiv(newOne) {
         }
         divToRemove.style.display = "none";
         if(item == "ourGame"){
-            gameOver();
+            gameOver(EXIT_GAME);
         }
         localStorage.setItem("current", newOne);
     }
