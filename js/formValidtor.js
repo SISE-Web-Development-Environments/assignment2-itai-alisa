@@ -3,12 +3,14 @@ $(document).ready(function () {
     $('#signUpButton').on('click', function (e) {
         let form = $('#signUpForm');
         let good_username = true;
-        var myMap = JSON.parse(sessionStorage.myMap);
-        let username = document.getElementById("usernameSingUp").value;
+        let myMap = JSON.parse(sessionStorage.myMap);
+        let username = $('#usernameSingUp').val();
+        // let username = document.getElementById("usernameSingUp").value;
         for (let i=0; i<myMap.length; i++ ){
             if(username === myMap[i][0]){
                 good_username=false;
-                document.getElementById("usernameSingUp").value="";
+                $('#usernameSingUp').val("");
+                // document.getElementById("usernameSingUp").value="";
             }
         }
         if (!form[0].checkValidity() || !good_username) {
@@ -16,9 +18,9 @@ $(document).ready(function () {
             e.stopPropagation();
         } else {
             form[0].style.display;
-            var myMap = JSON.parse(sessionStorage.myMap);
-            let username = document.getElementById("usernameSingUp").value;
-            let password = document.getElementById("passwordSignUp").value;
+            let myMap = JSON.parse(sessionStorage.myMap);
+            let username = $('#usernameSingUp').val();
+            let password = $('#passwordSignUp').val();
             myMap.push([username,password]);
             sessionStorage.myMap = JSON.stringify(myMap);
             switchDiv("login");
@@ -32,11 +34,10 @@ $(document).ready(function () {
             e.preventDefault();
             e.stopPropagation();
         } else {
-            var username = document.getElementById("loginUserName").value;
-            var password = document.getElementById("loginPassword").value;
-            var myMap = JSON.parse(sessionStorage.myMap);
-            var found = false;
-
+            let username = $('#usernameSingUp').val();
+            let password = $('#passwordSignUp').val();
+            let myMap = JSON.parse(sessionStorage.myMap);
+            let found = false;
             for (let i = 0; i < myMap.length; i++) {
                 if ((username == myMap[i][0] && password == myMap[i][1])) {
                     switchDiv('settings');
@@ -50,10 +51,7 @@ $(document).ready(function () {
             if (!found) {
                 alert("This username doesn't exist");
             }
-
-
         }
-
         form.addClass('was-validated');
     });
 });
