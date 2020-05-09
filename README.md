@@ -8,3 +8,4 @@
 ## Additional Functionality 
 * Hourglass - eating the hour glass adding to 10 seconds to the game time.
 * Special Food - Appears every 10 seconds for a five-second interval. Eating will result in either adding 50 points or reducing 25 points (random).
+* Visual Effects - Appears when the user wins or loses in the game on the canvas.
